@@ -1,0 +1,2346 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أنيميشن | ورشة الإبداع الخام</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;900&family=Kufam:wght@700;900&display=swap');
+
+        :root {
+            --bg-dark: #1a1a1f;
+            --bg-card: #24242a;
+            --accent-orange: #ff6b35;
+            --accent-teal: #06ffa5;
+            --text-primary: #f4f4f6;
+            --text-secondary: #a1a1aa;
+            --border-color: #3f3f46;
+        }
+
+        * {
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="%23ff6b35" stroke-width="2"/></svg>') 10 10, auto;
+        }
+
+        /* Rough Paper Texture */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.05 0"/></filter><rect width="200" height="200" filter="url(%23noiseFilter)" opacity="0.4"/></svg>');
+            opacity: 0.03;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Asymmetric Container */
+        .asym-container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Headings */
+        .heading-main {
+            font-family: 'Kufam', serif;
+            font-weight: 900;
+            line-height: 1.1;
+            position: relative;
+            display: inline-block;
+        }
+
+        .heading-main::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: -10px;
+            right: -10px;
+            height: 12px;
+            background-color: var(--accent-orange);
+            z-index: -1;
+            transform: rotate(-1deg);
+            transition: transform 0.3s ease;
+        }
+
+        .heading-main:hover::after {
+            transform: rotate(1deg);
+        }
+
+        /* Sketchy Cards */
+        .sketch-card {
+            background-color: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .sketch-card::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 30px;
+            height: 30px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M10,10 Q50,0 90,10 T90,90 Q50,100 10,90 T10,10" fill="none" stroke="%23ff6b35" stroke-width="4" stroke-linecap="round"/></svg>');
+            background-size: contain;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sketch-card:hover {
+            transform: translateY(-8px) rotate(1deg);
+            border-color: var(--accent-orange);
+            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.2);
+        }
+
+        .sketch-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Service Icon */
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: var(--bg-dark);
+            background-color: var(--accent-teal);
+            border-radius: 50%;
+            margin-bottom: 1.5rem;
+            transform: rotate(-5deg);
+            transition: transform 0.3s ease;
+        }
+
+        .sketch-card:hover .service-icon {
+            transform: rotate(5deg) scale(1.1);
+        }
+
+        /* --- SLIDESHOW JOURNEY SECTION --- */
+        .slideshow-journey {
+            position: relative;
+            padding: 10rem 0;
+            overflow: hidden;
+            background: linear-gradient(180deg, var(--bg-dark) 0%, #2a2a3f 50%, var(--bg-dark) 100%);
+        }
+
+        .journey-heading {
+            position: absolute;
+            top: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            /* Reduced width for a more focused frame */
+            margin: 0 auto;
+            /* FIX: Reduced height */
+            height: 480px;
+        }
+
+        .film-frame {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-card);
+            border: 3px solid #222;
+            border-radius: 8px;
+            padding: 2rem;
+            /* FIX: Use flexbox to center content vertically */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.5s ease-in-out;
+        }
+
+        .film-frame.active {
+            opacity: 1;
+            transform: scale(1);
+            border-color: var(--accent-orange);
+        }
+
+        .film-frame::before {
+            /* Tape effect */
+            content: '';
+            position: absolute;
+            top: -10px;
+            right: 20%;
+            width: 80px;
+            height: 30px;
+            background: rgba(255, 255, 224, 0.5);
+            transform: rotate(-5deg);
+            opacity: 0.7;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .film-frame::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 20%;
+            width: 80px;
+            height: 30px;
+            background: rgba(255, 255, 224, 0.5);
+            transform: rotate(5deg);
+            opacity: 0.7;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .frame-number {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-family: 'Kufam', serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: rgba(255, 107, 53, 0.2);
+            z-index: 0;
+        }
+
+        .frame-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--accent-orange);
+            color: var(--bg-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            /* FIX: Add margin to create space from title */
+            margin-bottom: 1.5rem;
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+
+        .film-frame.active .frame-icon {
+            transform: scale(1.1) rotate(10deg);
+        }
+
+        .frame-title {
+            font-family: 'Kufam', serif;
+            /* FIX: Increased font size */
+            font-size: 1.8rem;
+            font-weight: 700;
+            /* FIX: Add margin to create space from description */
+            margin-bottom: 1rem;
+            z-index: 2;
+        }
+
+        .frame-description {
+            color: var(--text-secondary);
+            /* FIX: Increased font size and line height */
+            font-size: 1.1rem;
+            line-height: 1.7;
+            z-index: 2;
+        }
+
+        /* --- END OF SLIDESHOW JOURNEY SECTION --- */
+
+        /* --- Film Strip Navigation --- */
+        .film-strip-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+
+        .nav-dot {
+            width: 50px;
+            height: 50px;
+            background-color: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            color: var(--text-secondary);
+            font-family: 'Kufam', serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .nav-dot:hover {
+            transform: scale(1.1);
+            border-color: var(--accent-orange);
+        }
+
+        .nav-dot.active {
+            background-color: var(--accent-orange);
+            color: var(--bg-dark);
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 15px rgba(255, 107, 53, 0.5);
+        }
+
+        /* --- END OF Film Strip Navigation --- */
+
+        /* Project Card */
+        .project-card {
+            perspective: 1000px;
+            height: 350px;
+        }
+
+        .project-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: right;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .project-card:hover .project-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .project-card-front,
+        .project-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+        }
+
+        .project-card-front {
+            background-color: var(--bg-card);
+        }
+
+        .project-card-back {
+            background-color: var(--accent-orange);
+            color: var(--bg-dark);
+            transform: rotateY(180deg);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .project-card-back h3 {
+            font-family: 'Kufam', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-card-back p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .project-tag {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: var(--bg-dark);
+            color: var(--accent-teal);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            transform: rotate(-5deg);
+        }
+
+        /* Team Member */
+        .team-member {
+            text-align: center;
+        }
+
+        .team-member img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(1.1);
+            border: 4px solid var(--bg-card);
+            transition: all 0.3s ease;
+            transform: rotate(-3deg);
+        }
+
+        .team-member:hover img {
+            filter: grayscale(0%);
+            transform: rotate(3deg) scale(1.05);
+            border-color: var(--accent-orange);
+        }
+
+        .team-member h3 {
+            font-family: 'Kufam', serif;
+            font-weight: 700;
+            margin-top: 1rem;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background-color: var(--bg-card);
+            border: 2px dashed var(--border-color);
+            padding: 3rem;
+            border-radius: 8px;
+        }
+
+        .form-input {
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 1rem;
+            border-radius: 4px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-teal);
+            box-shadow: 0 0 0 3px rgba(6, 255, 165, 0.1);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 30px;
+            border-radius: 4px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-orange);
+            color: var(--bg-dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-teal);
+            transition: left 0.3s ease;
+            z-index: 0;
+        }
+
+        .btn-primary span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-primary:hover::before {
+            left: 0;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--text-primary);
+            color: var(--bg-dark);
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            background-color: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            color: var(--text-secondary);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background-color: var(--accent-orange);
+            color: var(--bg-dark);
+            border-color: var(--accent-orange);
+            transform: rotate(-2deg);
+        }
+
+        /* Navigation */
+        .nav-main {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 0;
+            background-color: rgba(26, 26, 31, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-main.scrolled {
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            font-weight: 700;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-orange);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 0;
+            height: 3px;
+            background-color: var(--accent-orange);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--accent-orange);
+        }
+
+        /* --- Mobile Navigation --- */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+            z-index: 1002;
+        }
+
+        .mobile-menu-btn span {
+            width: 100%;
+            height: 3px;
+            background-color: var(--text-primary);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+
+        .mobile-menu-btn.open span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 6px);
+        }
+
+        .mobile-menu-btn.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -6px);
+        }
+
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(21, 21, 26, 0.98);
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            transform: translateY(-100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .mobile-menu-overlay.active {
+            transform: translateY(0);
+        }
+
+        .mobile-nav-link {
+            font-family: 'Kufam', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+
+        .mobile-nav-link:hover,
+        .mobile-nav-link.active {
+            color: var(--accent-orange);
+        }
+
+        /* Close Button inside Overlay */
+        .mobile-menu-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 2rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu-close:hover {
+            color: var(--accent-orange);
+        }
+
+        /* Redesigned Loader - Cinematic Digital Theme */
+        .loader {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, #1a1a24 0%, #0d0d12 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            overflow: hidden;
+        }
+
+        .loader-camera-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .lens-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 107, 53, 0.2);
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.1);
+        }
+
+        .lens-ring-1 {
+            width: 180px;
+            height: 180px;
+            border-style: dashed;
+        }
+
+        .lens-ring-2 {
+            width: 140px;
+            height: 140px;
+            border-color: var(--accent-teal);
+            opacity: 0.3;
+        }
+
+        .lens-ring-3 {
+            width: 100px;
+            height: 100px;
+            border-color: var(--accent-orange);
+            opacity: 0.5;
+        }
+
+        .lens-shutter {
+            width: 60px;
+            height: 60px;
+            background: var(--bg-card);
+            border-radius: 50%;
+            border: 3px solid var(--accent-orange);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 30px rgba(255, 107, 53, 0.3);
+            z-index: 2;
+        }
+
+        .lens-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--accent-teal);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--accent-teal);
+        }
+
+        .scan-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-teal), transparent);
+            box-shadow: 0 0 15px var(--accent-teal);
+            top: 50%;
+            left: 0;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .loader-text-container {
+            text-align: center;
+            z-index: 3;
+        }
+
+        .loader-title {
+            font-family: 'Kufam', serif;
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            letter-spacing: 4px;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .loader-subtitle {
+            font-size: 0.9rem;
+            color: var(--accent-teal);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.8;
+        }
+
+        .loader-progress-container {
+            margin-top: 2rem;
+            width: 250px;
+            position: relative;
+        }
+
+        .loader-progress-bar {
+            height: 2px;
+            background: rgba(255, 255, 255, 0.05);
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loader-progress-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: var(--accent-orange);
+            box-shadow: 0 0 10px var(--accent-orange);
+        }
+
+        .loader-bg-numbers {
+            position: absolute;
+            bottom: 20px;
+            right: 40px;
+            font-family: 'Kufam', serif;
+            font-weight: 900;
+            font-size: 8rem;
+            color: rgba(255, 255, 255, 0.02);
+            pointer-events: none;
+            user-select: none;
+        }
+
+        /* --- Hero Slider Styles --- */
+        .hero-slider-container {
+            position: relative;
+            width: 100%;
+            /* Professional sizing */
+            max-width: 550px;
+            height: 450px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            margin: 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-slider-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: scale(1.1);
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+            transform: scale(1);
+            z-index: 2;
+        }
+
+        .hero-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Gradient Overlay for text readability if needed (optional) */
+        .hero-slide::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+            pointer-events: none;
+        }
+
+        /* Navigation Controls */
+        .hero-slider-nav {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            z-index: 20;
+            display: flex;
+            gap: 12px;
+        }
+
+        .hero-nav-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(42, 42, 63, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .hero-nav-btn:hover {
+            background: var(--accent-orange);
+            border-color: var(--accent-orange);
+            color: var(--bg-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Pagination Dots */
+        .hero-slider-dots {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            z-index: 20;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .hero-dot {
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hero-dot.active {
+            background: var(--accent-teal);
+            width: 25px;
+            /* Pill shape for active */
+            border-radius: 10px;
+        }
+
+        /* --- Contact Section Improvements --- */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .contact-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .contact-info-card {
+            background: linear-gradient(145deg, #1e1e24, #25252e);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+        }
+
+        .info-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--accent-orange);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-left: 1.5rem;
+            /* RTL margin */
+            flex-shrink: 0;
+        }
+
+        .info-content h4 {
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-family: 'Kufam', serif;
+        }
+
+        .info-content p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: auto;
+        }
+
+        .social-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--bg-dark);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .social-btn:hover {
+            background: var(--accent-orange);
+            color: var(--bg-dark);
+            transform: translateY(-3px);
+            border-color: var(--accent-orange);
+        }
+
+        /* Refined Form */
+        .contact-form.enhanced {
+            background: transparent;
+            border: none;
+            padding: 0;
+            box-shadow: none;
+        }
+
+        .contact-form.enhanced .form-input {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.2rem;
+        }
+
+        .contact-form.enhanced .form-input:focus {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--accent-teal);
+        }
+
+        /* --- Footer Styles --- */
+        .site-footer {
+            background-color: #15151a;
+            /* Darker than bg-dark */
+            color: var(--text-secondary);
+            padding-top: 5rem;
+            padding-bottom: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.95rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+
+        @media (min-width: 768px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .footer-grid {
+                grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+            }
+        }
+
+        .footer-brand h3 {
+            color: white;
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            font-family: 'Kufam', serif;
+        }
+
+        .footer-desc {
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            max-width: 300px;
+        }
+
+        .footer-title {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.8rem;
+        }
+
+        .footer-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            /* RTL alignment */
+            width: 40px;
+            height: 3px;
+            background-color: var(--accent-orange);
+            border-radius: 2px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-teal);
+            transform: translateX(-5px);
+            /* Move left in RTL */
+        }
+
+        .footer-links a i {
+            margin-left: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--accent-orange);
+        }
+
+        .footer-bottom {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .footer-bottom {
+                flex-direction: row;
+                justify-content: space-between;
+                text-align: right;
+            }
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--accent-orange);
+            color: var(--bg-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid var(--bg-dark);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:not(.visible) {
+            transform: translateY(20px);
+        }
+
+        .back-to-top:hover {
+            background-color: var(--accent-teal);
+            transform: translateY(-5px) rotate(5deg);
+        }
+
+        /* ========================================
+           RESPONSIVE DESIGN - COMPREHENSIVE
+           ======================================== */
+
+        /* Small Mobile (max-width: 480px) */
+        @media (max-width: 480px) {
+            .asym-container {
+                width: 95%;
+            }
+
+            .heading-main {
+                font-size: 1.4rem !important;
+                white-space: nowrap;
+                overflow: visible;
+            }
+
+            .heading-main br {
+                display: none;
+            }
+
+            h2.heading-main {
+                font-size: 1.6rem !important;
+                white-space: nowrap;
+                overflow: visible;
+            }
+
+            section {
+                padding: 3rem 0 !important;
+            }
+
+            .back-to-top {
+                width: 40px;
+                height: 40px;
+                bottom: 20px;
+                left: 20px;
+                font-size: 1.2rem;
+            }
+
+            .slideshow-journey {
+                padding: 5rem 0 !important;
+            }
+
+            .journey-heading {
+                top: 3%;
+            }
+
+            .film-frame {
+                padding: 2rem 1.5rem;
+            }
+
+            .frame-number {
+                font-size: 3rem;
+                top: 10px;
+                right: 10px;
+            }
+
+            .frame-icon {
+                font-size: 2.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .frame-title {
+                font-size: 1.3rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .frame-description {
+                font-size: 0.95rem;
+            }
+
+            .nav-dot {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .sketch-card {
+                padding: 1.5rem;
+            }
+
+            .service-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+
+            .project-card {
+                height: 280px;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr !important;
+                gap: 2rem;
+            }
+
+            .info-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr !important;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .loader-camera-container {
+                width: 200px;
+                height: 200px;
+            }
+
+            .lens-ring-1 {
+                width: 180px;
+                height: 180px;
+            }
+
+            .lens-ring-2 {
+                width: 140px;
+                height: 140px;
+            }
+
+            .lens-ring-3 {
+                width: 100px;
+                height: 100px;
+            }
+
+            .loader-title {
+                font-size: 1.8rem;
+            }
+
+            .loader-subtitle {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Mobile (481px - 767px) */
+        @media (min-width: 481px) and (max-width: 767px) {
+            .asym-container {
+                width: 92%;
+            }
+
+            .heading-main {
+                font-size: 1.6rem !important;
+                white-space: nowrap;
+                overflow: visible;
+            }
+
+            .heading-main br {
+                display: none;
+            }
+
+            h2.heading-main {
+                font-size: 2rem !important;
+                white-space: nowrap;
+                overflow: visible;
+            }
+
+            section {
+                padding: 4rem 0 !important;
+            }
+
+            .slideshow-journey {
+                padding: 6rem 0 !important;
+            }
+
+            .film-frame {
+                padding: 2.5rem 2rem;
+            }
+
+            .frame-title {
+                font-size: 1.5rem;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr !important;
+                gap: 3rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr !important;
+                gap: 2.5rem;
+            }
+        }
+
+        /* Tablet (768px - 1023px) */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .asym-container {
+                width: 90%;
+            }
+
+            .heading-main {
+                font-size: 3rem !important;
+            }
+
+            h2.heading-main {
+                font-size: 4rem !important;
+            }
+
+            section {
+                padding: 5rem 0 !important;
+            }
+
+            .slideshow-journey {
+                padding: 8rem 0 !important;
+            }
+
+            .film-frame {
+                padding: 3rem 2.5rem;
+            }
+
+            .frame-title {
+                font-size: 1.6rem;
+            }
+
+            #services .grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+
+            #portfolio .grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+
+            #portfolio .md\:col-span-2 {
+                grid-column: span 2 !important;
+            }
+
+            .contact-container {
+                gap: 3rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 3rem;
+            }
+        }
+
+        /* Desktop (1024px+) */
+        @media (min-width: 1024px) {
+            #services .grid {
+                grid-template-columns: repeat(3, 1fr) !important;
+            }
+
+            #portfolio .grid {
+                grid-template-columns: repeat(3, 1fr) !important;
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(4, 1fr) !important;
+            }
+        }
+
+        /* Extra Large (1440px+) */
+        @media (min-width: 1440px) {
+            .asym-container {
+                max-width: 1600px;
+            }
+
+            .heading-main {
+                font-size: 4rem !important;
+            }
+
+            h2.heading-main {
+                font-size: 5rem !important;
+            }
+        }
+
+        /* Touch Devices */
+        @media (hover: none) and (pointer: coarse) {
+
+            .nav-link,
+            .mobile-nav-link,
+            .btn,
+            .filter-btn,
+            .nav-dot {
+                min-height: 44px;
+                min-width: 44px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        /* Landscape Mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .slideshow-journey {
+                padding: 3rem 0 !important;
+            }
+
+            .mobile-menu-overlay {
+                padding: 2rem 0;
+                overflow-y: auto;
+            }
+
+            .loader-camera-container {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Back to Top -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <!-- Three.js Canvas -->
+    <div id="threejs-container" class="fixed top-0 left-0 w-full h-full -z-10"></div>
+
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-bg-numbers" id="loader-bg-percentage">00</div>
+
+        <div class="loader-camera-container">
+            <div class="lens-ring lens-ring-1" id="ring-1"></div>
+            <div class="lens-ring lens-ring-2" id="ring-2"></div>
+            <div class="lens-ring lens-ring-3" id="ring-3"></div>
+            <div class="lens-shutter" id="lens-shutter">
+                <div class="lens-dot"></div>
+            </div>
+            <div class="scan-line" id="scan-line"></div>
+        </div>
+
+        <div class="loader-text-container">
+            <div class="loader-title">نحيي الخيال...</div>
+            <div class="loader-subtitle">دقة سينمائية، إبداع لا محدود</div>
+        </div>
+
+        <div class="loader-progress-container">
+            <div class="loader-progress-bar">
+                <div class="loader-progress-fill" id="loader-progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav-main" id="navbar">
+        <div class="asym-container flex justify-between items-center">
+            <a href="#" class="text-3xl font-black heading-main z-[1002] relative">أنيميشن</a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-reverse space-x-8">
+                <a href="#home" class="nav-link">الرئيسية</a>
+                <a href="#why-us" class="nav-link">لماذ نحن</a>
+                <a href="#journey" class="nav-link">رحلة الإنتاج</a>
+                <a href="#services" class="nav-link">خدماتنا</a>
+                <a href="#portfolio" class="nav-link">أعمالنا</a>
+                <a href="#clients" class="nav-link">عملاؤنا</a>
+                <a href="#contact" class="nav-link">تواصل</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <div class="mobile-menu-close" id="mobileMenuClose"><i class="fas fa-times"></i></div>
+        <a href="#home" class="mobile-nav-link">الرئيسية</a>
+        <a href="#why-us" class="mobile-nav-link">لماذ نحن</a>
+        <a href="#journey" class="mobile-nav-link">رحلة الإنتاج</a>
+        <a href="#services" class="mobile-nav-link">خدماتنا</a>
+        <a href="#portfolio" class="mobile-nav-link">أعمالنا</a>
+        <a href="#clients" class="mobile-nav-link">عملاؤنا</a>
+        <a href="#contact" class="mobile-nav-link">تواصل</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center pt-20">
+        <div class="asym-container">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h1 class="text-5xl md:text-7xl heading-main mb-6">
+                        هنا تُصنع الأفكار
+                    </h1>
+                    <p class="text-xl text-secondary mb-8">
+                        نقدم خدمة تسويقية وإعلانية متكاملة تتيح لعملائنا التركيز على أعمالهم بينما نتكفل نحن بتحويل
+                        منتجاتهم إلى علامات تجارية بارزة في السوق.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#journey" class="btn btn-primary"><span>عش الرحلة</span></a>
+                        <a href="#contact" class="btn btn-secondary">اطلب مشروعك</a>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <!-- Hero Slider -->
+                    <div class="hero-slider-container">
+                        <div class="hero-slider-wrapper">
+                            <div class="hero-slide active">
+                                <img src="https://picsum.photos/seed/branding/600/600" alt="Branding process">
+                            </div>
+                            <div class="hero-slide">
+                                <img src="https://picsum.photos/seed/creative/600/600" alt="Creative Strategy">
+                            </div>
+                            <div class="hero-slide">
+                                <img src="https://picsum.photos/seed/shooting/600/600" alt="Video Production">
+                            </div>
+                            <div class="hero-slide">
+                                <img src="https://picsum.photos/seed/analytics/600/600" alt="Analytics & Growth">
+                            </div>
+                        </div>
+
+                        <!-- Nav Buttons -->
+                        <div class="hero-slider-nav">
+                            <!-- In RTL: 'next' logically moves forward (left arrow visually often) but let's use direction agnostic icons or standard mapping. 
+                                 Right arrow usually means "Next" in LTR. In RTL usually Left arrow is "Next". 
+                                 Let's allow user to click and see. I'll use simple chevron icons. -->
+                            <button class="hero-nav-btn next"><i class="fas fa-arrow-left"></i></button>
+                            <button class="hero-nav-btn prev"><i class="fas fa-arrow-right"></i></button>
+                        </div>
+
+                        <!-- Dots -->
+                        <div class="hero-slider-dots">
+                            <span class="hero-dot active" data-index="0"></span>
+                            <span class="hero-dot" data-index="1"></span>
+                            <span class="hero-dot" data-index="2"></span>
+                            <span class="hero-dot" data-index="3"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Why Us Section -->
+    <section id="why-us" class="py-20" style="background-color: var(--bg-card);">
+        <div class="asym-container">
+            <h2 class="text-4xl md:text-6xl heading-main mb-16">لماذا أنيميشن؟</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="sketch-card">
+                    <h3 class="text-xl font-bold mb-3 flex items-center"><i
+                            class="fas fa-check-circle text-teal-400 ml-3"></i> الشريك التسويقي المتكامل</h3>
+                    <p class="text-secondary">نغطي كل جوانب التسويق والإعلان والدعاية في مكان واحد، من التصوير إلى
+                        الحملات الرقمية.</p>
+                </div>
+                <div class="sketch-card">
+                    <h3 class="text-xl font-bold mb-3 flex items-center"><i class="fas fa-clock text-teal-400 ml-3"></i>
+                        نوفر الوقت والجهد</h3>
+                    <p class="text-secondary">عميلك لا يحتاج للتعامل مع أكثر من جهة، مما يوفر عليه الوقت والجهد ليركز
+                        على عمله الأساسي.</p>
+                </div>
+                <div class="sketch-card">
+                    <h3 class="text-xl font-bold mb-3 flex items-center"><i
+                            class="fas fa-palette text-teal-400 ml-3"></i> إبداع واحترافية</h3>
+                    <p class="text-secondary">فريق يجمع بين طاقة الشباب والخبرة، مقدماً حلولاً إبداعية مبتكرة تواكب
+                        السوق.</p>
+                </div>
+                <div class="sketch-card">
+                    <h3 class="text-xl font-bold mb-3 flex items-center"><i class="fas fa-tag text-teal-400 ml-3"></i>
+                        أسعار تنافسية</h3>
+                    <p class="text-secondary">نقدم جودة عالية مقابل أسعار تنافسية، مع باقات وخدمات تناسب الشركات الكبيرة
+                        والصغيرة.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- SLIDESHOW Production Journey Section -->
+    <section id="journey" class="slideshow-journey">
+        <div class="journey-heading">
+            <h2 class="text-4xl md:text-6xl heading-main text-white">رحلة الإنتاج السينمائية</h2>
+        </div>
+        <div class="asym-container">
+            <div class="slideshow-container">
+                <!-- Frame 1 -->
+                <div class="film-frame active" data-frame="1">
+                    <span class="frame-number">01</span>
+                    <div class="frame-icon"><i class="fas fa-lightbulb"></i></div>
+                    <h3 class="frame-title">الفكرة والاستراتيجية</h3>
+                    <p class="frame-description">
+                        نبدأ بفهم عميق لسوقك، منافسيك، وجمهورك المستهدف. نحدد أهداف الحملة ونضع استراتيجية واضحة تضمن أن
+                        كل خطوة تالية تخدم هدفك النهائي.
+                    </p>
+                </div>
+                <!-- Frame 2 -->
+                <div class="film-frame" data-frame="2">
+                    <span class="frame-number">02</span>
+                    <div class="frame-icon"><i class="fas fa-pencil-ruler"></i></div>
+                    <h3 class="frame-title">التصميم والقصة المصورة</h3>
+                    <p class="frame-description">
+                        نحول الاستراتيجية إلى أفكار إبداعية مرئية. نقوم بتصميم الشعارات، اختيار الألوان، وإنشاء القصص
+                        المصورة التي تحدد مشاهد الفيديو أو الإعلان.
+                    </p>
+                </div>
+                <!-- Frame 3 -->
+                <div class="film-frame" data-frame="3">
+                    <span class="frame-number">03</span>
+                    <div class="frame-icon"><i class="fas fa-camera"></i></div>
+                    <h3 class="frame-title">الإنتاج والتصوير</h3>
+                    <p class="frame-description">
+                        نقوم بتنفيذ التصاميم على أرض الواقع. سواء كان ذلك تصوير المنتجات في استوديونا، إنتاج الفيديوهات
+                        الترويجية، أو طباعة المطبوعات الدعائية.
+                    </p>
+                </div>
+                <!-- Frame 4 -->
+                <div class="film-frame" data-frame="4">
+                    <span class="frame-number">04</span>
+                    <div class="frame-icon"><i class="fas fa-rocket"></i></div>
+                    <h3 class="frame-title">الإطلاق والتسويق</h3>
+                    <p class="frame-description">
+                        نطلق الحملة الإعلانية عبر القنوات المحددة. سواء كانت لوحات إعلانية في الشوارع، حملات ممولة على
+                        منصات التواصل الاجتماعي، أو إرسال المواد الدعائية.
+                    </p>
+                </div>
+                <!-- Frame 5 -->
+                <div class="film-frame" data-frame="5">
+                    <span class="frame-number">05</span>
+                    <div class="frame-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3 class="frame-title">التحليل والتحسين</h3>
+                    <p class="frame-description">
+                        نراقب أداء الحملة باستمرار باستخدام أدوات التحليل. نقيس النتائج مقابل الأهداف المحددة ونقدم
+                        تقارير دورية للعميل. بناءً على البيانات، نقترح تحسينات مستمرة.
+                    </p>
+                </div>
+            </div>
+            <!-- Film Strip Navigation -->
+            <div class="film-strip-nav">
+                <button class="nav-dot active" data-target="1">1</button>
+                <button class="nav-dot" data-target="2">2</button>
+                <button class="nav-dot" data-target="3">3</button>
+                <button class="nav-dot" data-target="4">4</button>
+                <button class="nav-dot" data-target="5">5</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20">
+        <div class="asym-container">
+            <h2 class="text-4xl md:text-6xl heading-main mb-16">خدماتنا المتكاملة</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="sketch-card">
+                    <div class="service-icon"><i class="fas fa-hashtag"></i></div>
+                    <h3 class="text-2xl font-bold mb-3">إدارة السوشال ميديا</h3>
+                    <p class="text-secondary">استراتيجيات تسويق رقمية مخصصة، إدارة الحسابات، ومحتوى إبداعي لمنصات
+                        التواصل الاجتماعي.</p>
+                </div>
+                <div class="sketch-card">
+                    <div class="service-icon"><i class="fas fa-ad"></i></div>
+                    <h3 class="text-2xl font-bold mb-3">الإعلانات الخارجية</h3>
+                    <p class="text-secondary">تصميم وتنفيذ لوحات إعلانية مميزة في أماكن استراتيجية لضمان أكبر وصول
+                        لجمهورك.</p>
+                </div>
+                <div class="sketch-card">
+                    <div class="service-icon"><i class="fas fa-print"></i></div>
+                    <h3 class="text-2xl font-bold mb-3">المطبوعات الإعلانية</h3>
+                    <p class="text-secondary">تصميم وطباعة بروشورات، كتالوجات، بطاقات، وهدايا دعائية تعكس هويتك
+                        التجارية.</p>
+                </div>
+                <div class="sketch-card">
+                    <div class="service-icon"><i class="fas fa-camera"></i></div>
+                    <h3 class="text-2xl font-bold mb-3">التصوير والإنتاج</h3>
+                    <p class="text-secondary">استوديو تصوير متكامل لإنتاج صور وفيديوهات احترافية للمنتجات مع خدمات
+                        المونتاج والمؤثرات.</p>
+                </div>
+                <div class="sketch-card">
+                    <div class="service-icon"><i class="fas fa-fingerprint"></i></div>
+                    <h3 class="text-2xl font-bold mb-3">الهوية البصرية</h3>
+                    <p class="text-secondary">إنشاء هوية بصرية متكاملة تشمل الشعار، الألوان، والخطوط لتمنح علامتك حضورًا
+                        مميزًا.</p>
+                </div>
+                <div class="sketch-card">
+                    <div class="service-icon"><i class="fas fa-handshake"></i></div>
+                    <h3 class="text-2xl font-bold mb-3">خدمة العملاء</h3>
+                    <p class="text-secondary">صياغة عقود، متابعة مستمرة لضمان رضا العميل، ونظام لإدارة الملاحظات
+                        والاستفسارات.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IMPROVED Portfolio Section -->
+    <section id="portfolio" class="py-20" style="background-color: var(--bg-card);">
+        <div class="asym-container">
+            <h2 class="text-4xl md:text-6xl heading-main mb-16">دفتر أعمالنا</h2>
+
+            <!-- Filter Buttons -->
+            <div class="flex justify-center flex-wrap gap-4 mb-12">
+                <button class="filter-btn active" data-filter="all">الكل</button>
+                <button class="filter-btn" data-filter="branding">هوية بصرية</button>
+                <button class="filter-btn" data-filter="campaign">حملات إعلانية</button>
+                <button class="filter-btn" data-filter="video">فيديو وإنتاج</button>
+                <button class="filter-btn" data-filter="printing">مطبوعات</button>
+            </div>
+
+            <!-- Asymmetrical Project Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-auto">
+                <!-- Project 1: Large -->
+                <div class="project-card md:col-span-2 row-span-2" data-category="campaign">
+                    <div class="project-card-inner">
+                        <div class="project-card-front">
+                            <span class="project-tag">حملة إعلانية</span>
+                            <img src="https://picsum.photos/seed/diora-jewelry/600/600" alt="Diora Jewelry Campaign"
+                                class="w-full h-full object-cover">
+                        </div>
+                        <div class="project-card-back">
+                            <h3>حملة "الثقة" لمجوهرات ديورا</h3>
+                            <p><strong>التحدي:</strong> إطلاق منتج جديد في سوق متنافس وبناء ثقة العملاء.</p>
+                            <p><strong>الحل:</strong> حملة متكاملة شملت فيديو ترويجي، صور احترافية، حملة دعائية خارجية،
+                                وإدارة سوشيال ميديا.</p>
+                            <p><strong>النتيجة:</strong> نجاح الحملة وزيادة الوعي بالعلامة التجارية بنسبة 40% في الشهر
+                                الأول.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 2: Small -->
+                <div class="project-card" data-category="branding">
+                    <div class="project-card-inner">
+                        <div class="project-card-front">
+                            <span class="project-tag">هوية بصرية</span>
+                            <img src="https://picsum.photos/seed/coffee-brand/300/300" alt="Coffee Branding"
+                                class="w-full h-full object-cover">
+                        </div>
+                        <div class="project-card-back">
+                            <h3>هوية "قهوة الصباح"</h3>
+                            <p><strong>التحدي:</strong> تصميم هوية عصرية تجذب الشباب.</p>
+                            <p><strong>الحل:</strong> شعار، ألوان، وتغليف منتج يعكس الطاقة الحيوية.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 3: Small -->
+                <div class="project-card" data-category="video">
+                    <div class="project-card-inner">
+                        <div class="project-card-front">
+                            <span class="project-tag">فيديو</span>
+                            <img src="https://picsum.photos/seed/restaurant-promo/300/300" alt="Restaurant Promo"
+                                class="w-full h-full object-cover">
+                        </div>
+                        <div class="project-card-back">
+                            <h3>فيديو "مطعم الأصايل"</h3>
+                            <p><strong>التحدي:</strong> عرض الأجواء الفاخرة للمطعم.</p>
+                            <p><strong>الحل:</strong> تصوير سينمائي للمطعم مع مونتاج احترافي وموسيقى تصويرية مناسبة.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 4: Wide -->
+                <div class="project-card md:col-span-2" data-category="printing">
+                    <div class="project-card-inner">
+                        <div class="project-card-front">
+                            <span class="project-tag">مطبوعات</span>
+                            <img src="https://picsum.photos/seed/event-brochure/600/300" alt="Event Brochure"
+                                class="w-full h-full object-cover">
+                        </div>
+                        <div class="project-card-back">
+                            <h3>بروشور "مؤتمر التقنية"</h3>
+                            <p><strong>التحدي:</strong> تصميم بروشور يعكس طبيعة المؤتمر التقنية.</p>
+                            <p><strong>الحل:</strong> تصميم عصري ونظيف مع معلومات منظمة وجذابة.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 5: Small -->
+                <div class="project-card" data-category="branding">
+                    <div class="project-card-inner">
+                        <div class="project-card-front">
+                            <span class="project-tag">هوية بصرية</span>
+                            <img src="https://picsum.photos/seed/tech-startup/300/300" alt="Tech Startup"
+                                class="w-full h-full object-cover">
+                        </div>
+                        <div class="project-card-back">
+                            <h3>هوية "تقنية العصر"</h3>
+                            <p><strong>التحدي:</strong> بناء هوية بصرية لشركة ناشئة في مجال الذكاء الاصطناعي.</p>
+                            <p><strong>الحل:</strong> شعار ديناميكي وهوية مرنة للاستخدام الرقمي.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clients Section -->
+    <section id="clients" class="py-20">
+        <div class="asym-container">
+            <h2 class="text-4xl md:text-6xl heading-main mb-16">نثق في شركائنا</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="sketch-card text-center">
+                    <i class="fas fa-store text-5xl text-orange-400 mb-4"></i>
+                    <h3 class="text-2xl font-bold mb-3">القطاع التجاري</h3>
+                    <p class="text-secondary">نخدم الشركات، المصانع، محلات التجزئة، المطاعم، الكافيات، والمولات بكل ما
+                        تحتاجه من حلول تسويقية.</p>
+                </div>
+                <div class="sketch-card text-center">
+                    <i class="fas fa-building text-5xl text-orange-400 mb-4"></i>
+                    <h3 class="text-2xl font-bold mb-3">القطاع الخاص</h3>
+                    <p class="text-secondary">نقدم خدماتنا للبنوك، شركات الاتصالات، المستشفيات، الصيدليات، الجامعات،
+                        والمختبرات.</p>
+                </div>
+                <div class="sketch-card text-center">
+                    <i class="fas fa-landmark text-5xl text-orange-400 mb-4"></i>
+                    <h3 class="text-2xl font-bold mb-3">القطاع العام</h3>
+                    <p class="text-secondary">نتعاون مع الوزارات، المؤسسات الرسمية، والجهات الحكومية لتقديم رسائلها
+                        بفعالية وإبداع.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20" style="background-color: var(--bg-card);">
+        <div class="asym-container">
+            <h2 class="text-4xl md:text-6xl heading-main mb-16">لنبني علامتك التجارية معًا</h2>
+
+            <div class="contact-container">
+                <!-- Right Column (Contact Info) - Visually Right in RTL -->
+                <div>
+                    <div class="contact-info-card">
+                        <div>
+                            <h3 class="text-2xl font-bold mb-8 text-white">معلومات التواصل</h3>
+
+                            <div class="info-item">
+                                <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                                <div class="info-content">
+                                    <h4>موقعنا</h4>
+                                    <p>شارع حدة، صنعاء<br>الجمهورية اليمنية</p>
+                                </div>
+                            </div>
+
+                            <div class="info-item">
+                                <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
+                                <div class="info-content">
+                                    <h4>اتصل بنا</h4>
+                                    <p>+967 1 000 000<br>+967 77 000 0000</p>
+                                </div>
+                            </div>
+
+                            <div class="info-item">
+                                <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                                <div class="info-content">
+                                    <h4>البريد الإلكتروني</h4>
+                                    <p>hello@animation.sa<br>support@animation.sa</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8">
+                            <h4 class="text-lg font-bold mb-4 text-white">تابعنا على</h4>
+                            <div class="social-links">
+                                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#" class="social-btn"><i class="fab fa-whatsapp"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Left Column (Form) -->
+                <div>
+                    <form class="contact-form enhanced">
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <input type="text" placeholder="اسمك الكريم" class="form-input" required>
+                            <input type="email" placeholder="بريدك الإلكتروني" class="form-input" required>
+                        </div>
+                        <div class="mb-6">
+                            <input type="text" placeholder="رقم الجوال" class="form-input" required>
+                        </div>
+                        <div class="mb-6">
+                            <select class="form-input text-gray-400" required>
+                                <option value="" disabled selected>نوع الخدمة المطلوبة</option>
+                                <option value="branding">هوية بصرية</option>
+                                <option value="marketing">تسويق رقمي</option>
+                                <option value="production">إنتاج فني</option>
+                                <option value="consultation">استشارة</option>
+                            </select>
+                        </div>
+                        <div class="mb-6">
+                            <textarea rows="5" placeholder="تفاصيل مشروعك..." class="form-input" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-full"><span>أرسل طلبك</span></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="asym-container">
+            <div class="footer-grid">
+                <!-- Column 1: Brand -->
+                <div class="footer-brand">
+                    <h3 class="heading-main">أنيميشن</h3>
+                    <p class="footer-desc">
+                        شريكك الإبداعي لتحويل الأفكار إلى واقع ملموس. نقدم حلولاً تسويقية متكاملة ترفع من قيمة علامتك
+                        التجارية وتصل بها إلى جمهورك المستهدف بفعالية.
+                    </p>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div>
+                    <h4 class="footer-title">روابط سريعة</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home"><i class="fas fa-chevron-left"></i> الرئيسية</a></li>
+                        <li><a href="#why-us"><i class="fas fa-chevron-left"></i> لماذا نحن</a></li>
+                        <li><a href="#journey"><i class="fas fa-chevron-left"></i> رحلة الإنتاج</a></li>
+                        <li><a href="#services"><i class="fas fa-chevron-left"></i> خدماتنا</a></li>
+                        <li><a href="#portfolio"><i class="fas fa-chevron-left"></i> أعمالنا</a></li>
+                        <li><a href="#clients"><i class="fas fa-chevron-left"></i> عملاؤنا</a></li>
+                        <li><a href="#contact"><i class="fas fa-chevron-left"></i> تواصل</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Services -->
+                <div>
+                    <h4 class="footer-title">خدماتنا</h4>
+                    <ul class="footer-links">
+                        <li><a href="#services"><i class="fas fa-circle" style="font-size: 6px;"></i> إدارة السوشال
+                                ميديا</a></li>
+                        <li><a href="#services"><i class="fas fa-circle" style="font-size: 6px;"></i> الإعلانات
+                                الخارجية</a></li>
+                        <li><a href="#services"><i class="fas fa-circle" style="font-size: 6px;"></i> المطبوعات
+                                الإعلانية</a></li>
+                        <li><a href="#services"><i class="fas fa-circle" style="font-size: 6px;"></i> التصوير
+                                والإنتاج</a></li>
+                        <li><a href="#services"><i class="fas fa-circle" style="font-size: 6px;"></i> الهوية البصرية</a>
+                        </li>
+                        <li><a href="#services"><i class="fas fa-circle" style="font-size: 6px;"></i> خدمة العملاء</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Newsletter/Active -->
+                <div>
+                    <h4 class="footer-title">نشرتنا البريدية</h4>
+                    <p class="mb-4">اشترك لتصلك آخر عروضنا وأخبارنا الحصرية.</p>
+                    <form class="flex gap-2 mb-4">
+                        <input type="email" placeholder="بريدك الإلكتروني" class="form-input"
+                            style="padding: 0.8rem; font-size: 0.9rem;">
+                        <button type="submit" class="btn btn-primary"
+                            style="padding: 0.8rem 1.2rem; white-space: nowrap;">
+                            <span><i class="fas fa-paper-plane"></i></span>
+                        </button>
+                    </form>
+                    <p class="text-sm opacity-60">نحترم خصوصيتك ولا نرسل رسائل مزعجة.</p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="copyright">&copy; 2025 أنيميشن للدعاية والإعلان. جميع الحقوق محفوظة.</p>
+                <div class="social-links" style="margin-top: 0;">
+                    <a href="#" class="social-btn" style="width: 35px; height: 35px; font-size: 0.9rem;"><i
+                            class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-btn" style="width: 35px; height: 35px; font-size: 0.9rem;"><i
+                            class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-btn" style="width: 35px; height: 35px; font-size: 0.9rem;"><i
+                            class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Auto-scroll to top on page refresh/load
+        if (history.scrollRestoration) {
+            history.scrollRestoration = 'manual';
+        }
+        window.addEventListener('beforeunload', function () {
+            window.scrollTo(0, 0);
+        });
+
+        // Loader Logic - Cinematic Digital
+        document.addEventListener('DOMContentLoaded', () => {
+            const rings = [
+                document.getElementById('ring-1'),
+                document.getElementById('ring-2'),
+                document.getElementById('ring-3')
+            ];
+            const shutter = document.getElementById('lens-shutter');
+            const scanLine = document.getElementById('scan-line');
+            const progressFill = document.getElementById('loader-progress-fill');
+            const bgPercentage = document.getElementById('loader-bg-percentage');
+
+            // Animate rings
+            gsap.to(rings[0], { rotate: 360, duration: 10, repeat: -1, ease: "none" });
+            gsap.to(rings[1], { rotate: -360, duration: 15, repeat: -1, ease: "none" });
+            gsap.to(rings[2], { rotate: 360, duration: 8, repeat: -1, ease: "none" });
+
+            // Shutter pulse
+            gsap.to(shutter, {
+                scale: 1.1,
+                boxShadow: "0 0 50px rgba(255, 107, 53, 0.5)",
+                duration: 1,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+
+            // Scan line loop
+            gsap.set(scanLine, { opacity: 0.5, top: "-10%" });
+            gsap.to(scanLine, {
+                top: "110%",
+                duration: 2,
+                repeat: -1,
+                ease: "none"
+            });
+
+            // Loading Progress
+            let progress = { value: 0 };
+            gsap.to(progress, {
+                value: 100,
+                duration: 4,
+                ease: "power2.inOut",
+                onUpdate: () => {
+                    const p = Math.floor(progress.value);
+                    progressFill.style.width = p + '%';
+                    bgPercentage.innerText = p.toString().padStart(2, '0');
+                },
+                onComplete: () => {
+                    // Dramatic exit
+                    const tl = gsap.timeline({
+                        onComplete: () => {
+                            document.getElementById('loader').style.display = 'none';
+                            startAnimations();
+                        }
+                    });
+
+                    tl.to('.loader-camera-container', { scale: 1.5, opacity: 0, duration: 0.8, ease: "power4.in" })
+                        .to('.loader-text-container, .loader-progress-container', { y: 20, opacity: 0, duration: 0.5 }, "-=0.6")
+                        .to('#loader', { backgroundColor: "transparent", backdropFilter: "blur(0px)", duration: 0.5 }, "-=0.2")
+                        .to('#loader', { opacity: 0, duration: 0.5 });
+                }
+            });
+        });
+
+        // Three.js
+        let scene, camera, renderer, sculpture;
+        function initThreeJS() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('threejs-container').appendChild(renderer.domElement);
+            sculpture = new THREE.Group();
+            const cubeGeometry = new THREE.BoxGeometry(4, 4, 4);
+            const cubeMaterial = new THREE.MeshBasicMaterial({ color: 0xff6b35, wireframe: true });
+            const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+            cube.position.set(-8, 0, 0);
+            sculpture.add(cube);
+            const sphereGeometry = new THREE.SphereGeometry(3, 32, 32);
+            const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0x06ffa5, wireframe: true });
+            const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+            sphere.position.set(8, 0, 0);
+            sculpture.add(sphere);
+            const coneGeometry = new THREE.ConeGeometry(3, 6, 8);
+            const coneMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true });
+            const cone = new THREE.Mesh(coneGeometry, coneMaterial);
+            cone.position.set(0, 6, 0);
+            sculpture.add(cone);
+            scene.add(sculpture);
+            camera.position.z = 25;
+            animate();
+        }
+        function animate() {
+            requestAnimationFrame(animate);
+            sculpture.rotation.x += 0.001;
+            sculpture.rotation.y += 0.002;
+            renderer.render(scene, camera);
+        }
+        initThreeJS();
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Anime.js Animations
+        function startAnimations() {
+            anime({
+                targets: '.heading-main',
+                translateY: [50, 0],
+                opacity: [0, 1],
+                duration: 1200,
+                delay: anime.stagger(200, { start: 300 }),
+                easing: 'easeOutExpo'
+            });
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // --- SLIDESHOW JOURNEY LOGIC (REVISED) ---
+        const filmFrames = document.querySelectorAll('.film-frame');
+        const navDots = document.querySelectorAll('.nav-dot');
+
+        function showFrame(targetNumber) {
+            filmFrames.forEach(frame => {
+                frame.classList.remove('active');
+                anime.set(frame, { opacity: 0, scale: 0.9 });
+            });
+            navDots.forEach(dot => dot.classList.remove('active'));
+
+            const targetFrame = document.querySelector(`[data-frame="${targetNumber}"]`);
+            const targetDot = document.querySelector(`[data-target="${targetNumber}"]`);
+
+            if (targetFrame) {
+                anime({
+                    targets: targetFrame,
+                    opacity: [0, 1],
+                    scale: [0.9, 1],
+                    duration: 500,
+                    easing: 'easeInOutQuad',
+                    begin: () => targetFrame.classList.add('active')
+                });
+            }
+            if (targetDot) {
+                targetDot.classList.add('active');
+            }
+        }
+
+        // Add click event to navigation dots
+        navDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const target = dot.getAttribute('data-target');
+                showFrame(target);
+            });
+        });
+
+        // Initialize with the first frame visible
+        showFrame(1);
+        // --- END OF SLIDESHOW JOURNEY LOGIC ---
+
+
+        // Portfolio Filter Logic
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.getAttribute('data-filter');
+                projectCards.forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        card.style.display = 'block';
+                        anime({ targets: card, scale: [0.8, 1], opacity: [0, 1], duration: 500, easing: 'easeOutExpo' });
+                    } else {
+                        anime({ targets: card, scale: [1, 0.8], opacity: [1, 0], duration: 500, easing: 'easeInExpo', complete: () => { card.style.display = 'none'; } });
+                    }
+                });
+            });
+        });
+
+        // Form submission
+        document.querySelector('.contact-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            if (this.checkValidity()) {
+                alert('شكرًا لتواصلك معنا! وصل طلبك وسيتواصل معك فريقنا في أقرب وقت ممكن.');
+                this.reset();
+            } else {
+                this.reportValidity();
+            }
+        });
+
+        // --- MOBILE NAVIGATION LOGIC ---
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuClose = document.getElementById('mobileMenuClose');
+        const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+        function toggleMobileMenu() {
+            mobileMenuBtn.classList.toggle('open');
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+
+        if (mobileMenuClose) {
+            mobileMenuClose.addEventListener('click', toggleMobileMenu);
+        }
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                toggleMobileMenu();
+            });
+        });
+
+        // --- SCROLL SPY LOGIC ---
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+        function activeMenu() {
+            let len = sections.length;
+            while (--len && window.scrollY + 150 < sections[len].offsetTop) { }
+
+            navLinks.forEach(ltx => ltx.classList.remove('active'));
+            if (navLinks[len]) navLinks[len].classList.add('active');
+
+            mobileNavLinks.forEach(ltx => ltx.classList.remove('active'));
+            if (mobileNavLinks[len]) mobileNavLinks[len].classList.add('active');
+        }
+        activeMenu();
+        window.addEventListener('scroll', activeMenu);
+        // --- END SCROLL SPY LOGIC ---
+
+        // --- HERO SLIDER LOGIC ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const heroSlides = document.querySelectorAll('.hero-slide');
+            const heroDots = document.querySelectorAll('.hero-dot');
+            const heroPrevBtn = document.querySelector('.hero-nav-btn.prev');
+            const heroNextBtn = document.querySelector('.hero-nav-btn.next');
+            let currentHeroSlide = 0;
+            const totalHeroSlides = heroSlides.length;
+            let heroAutoPlayInterval;
+
+            function showHeroSlide(index) {
+                if (index >= totalHeroSlides) index = 0;
+                if (index < 0) index = totalHeroSlides - 1;
+
+                currentHeroSlide = index;
+
+                // Slides
+                heroSlides.forEach(slide => slide.classList.remove('active'));
+                heroSlides[currentHeroSlide].classList.add('active');
+
+                // Dots
+                heroDots.forEach(dot => dot.classList.remove('active'));
+                if (heroDots[currentHeroSlide]) heroDots[currentHeroSlide].classList.add('active');
+            }
+
+            function nextHeroSlide() {
+                showHeroSlide(currentHeroSlide + 1);
+            }
+
+            function prevHeroSlide() {
+                showHeroSlide(currentHeroSlide - 1);
+            }
+
+            function startHeroAutoPlay() {
+                heroAutoPlayInterval = setInterval(nextHeroSlide, 4000);
+            }
+
+            function stopHeroAutoPlay() {
+                clearInterval(heroAutoPlayInterval);
+            }
+
+            if (heroNextBtn) heroNextBtn.addEventListener('click', () => {
+                nextHeroSlide();
+                stopHeroAutoPlay();
+                startHeroAutoPlay();
+            });
+
+            if (heroPrevBtn) heroPrevBtn.addEventListener('click', () => {
+                prevHeroSlide();
+                stopHeroAutoPlay();
+                startHeroAutoPlay();
+            });
+
+            heroDots.forEach((dot, idx) => {
+                dot.addEventListener('click', () => {
+                    showHeroSlide(idx);
+                    stopHeroAutoPlay();
+                    startHeroAutoPlay();
+                });
+            });
+
+            const heroContainer = document.querySelector('.hero-slider-container');
+            if (heroContainer) {
+                heroContainer.addEventListener('mouseenter', stopHeroAutoPlay);
+                heroContainer.addEventListener('mouseleave', startHeroAutoPlay);
+            }
+
+            // Init
+            startHeroAutoPlay();
+        });
+        // --- END HERO SLIDER LOGIC ---
+
+        // Back to Top Logic
+        const backToTopBtn = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+
+</html>
