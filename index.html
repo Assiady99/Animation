@@ -4,7 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أنيميشن | ورشة الإبداع الخام</title>
+    <title>أنيميشن | ورشة الإبداع الخام - خدمات تسويقية متكاملة</title>
+    <meta name="description"
+        content="وكالة أنيميشن للدعاية والإعلان - ركيزتنا الإبداع وهدفنا نجاح علامتك التجارية. نقدم خدمات إدارة السوشال ميديا، الهوية البصرية، والإنتاج الفني.">
+    <meta name="keywords"
+        content="دعاية وإعلان، تسويق رقمي، هوية بصرية، إنتاج مرئي، سوشال ميديا، أنيميشن، اليمن، صنعاء">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
@@ -159,6 +163,19 @@
             margin: 0 auto;
             /* FIX: Reduced height */
             height: 480px;
+        }
+
+        @media (max-width: 640px) {
+            .slideshow-container {
+                height: 420px;
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .slideshow-container {
+                height: 380px;
+            }
         }
 
         .film-frame {
@@ -772,18 +789,188 @@
             user-select: none;
         }
 
-        /* --- Hero Slider Styles --- */
+        /* --- Hero Slider & Billboard Styles --- */
+        .billboard-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding-bottom: 40px;
+            /* Space for the stand */
+            transform: scale(0.9);
+            transform-origin: center;
+        }
+
+        @media (max-width: 768px) {
+            .billboard-container {
+                transform: scale(0.85);
+                max-width: 100%;
+            }
+
+            .billboard-stand {
+                padding: 0 50px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .billboard-container {
+                transform: scale(0.7);
+                margin-top: -30px;
+                margin-bottom: -30px;
+            }
+
+            .billboard-lights {
+                padding: 0 20px !important;
+            }
+
+            .hero-slider-container {
+                height: 320px !important;
+            }
+        }
+
+        .billboard-frame {
+            position: relative;
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 4px;
+            box-shadow:
+                inset 0 0 10px rgba(0, 0, 0, 0.8),
+                0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 4px solid #333;
+            z-index: 2;
+        }
+
+        .billboard-frame::before {
+            /* Metallic texture/bolts */
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            pointer-events: none;
+        }
+
+        /* Decorative Lights */
+        .billboard-lights {
+            position: absolute;
+            top: -20px;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            padding: 0 50px;
+            z-index: 3;
+        }
+
+        .billboard-light {
+            width: 40px;
+            height: 15px;
+            background: #444;
+            border-radius: 4px 4px 0 0;
+            position: relative;
+        }
+
+        .billboard-light::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 100px;
+            background: radial-gradient(circle at top, rgba(255, 107, 53, 0.3) 0%, transparent 70%);
+            filter: blur(10px);
+            pointer-events: none;
+            opacity: 0.8;
+            animation: lightPulse 3s infinite alternate ease-in-out;
+        }
+
+        @keyframes lightPulse {
+            from {
+                opacity: 0.6;
+                transform: translateX(-50%) scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(-50%) scale(1.1);
+            }
+        }
+
         .hero-slider-container {
             position: relative;
             width: 100%;
-            /* Professional sizing */
-            max-width: 550px;
-            height: 450px;
+            height: 400px;
             overflow: hidden;
-            border-radius: 20px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            margin: 0 auto;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #000;
+            /* Screen curvature effect */
+            border-radius: 8px;
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 1);
+        }
+
+        /* Digital Screen Effects */
+        .billboard-screen-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 3px, 3px 100%;
+            z-index: 5;
+            pointer-events: none;
+            opacity: 0.4;
+            animation: screenFlicker 3s infinite;
+        }
+
+        @keyframes screenFlicker {
+            0% {
+                opacity: 0.35;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
+
+            100% {
+                opacity: 0.38;
+            }
+        }
+
+        /* Stand */
+        .billboard-stand {
+            position: absolute;
+            bottom: -60px;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            display: flex;
+            justify-content: space-around;
+            padding: 0 100px;
+            z-index: 1;
+        }
+
+        .pillar {
+            width: 30px;
+            height: 100%;
+            background: linear-gradient(90deg, #222 0%, #333 50%, #222 100%);
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+            border-right: 1px solid rgba(0, 0, 0, 0.5);
+            box-shadow: 10px 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .billboard-base {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 10px;
+            background: #151515;
+            border-radius: 5px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8);
         }
 
         .hero-slider-wrapper {
@@ -799,7 +986,7 @@
             width: 100%;
             height: 100%;
             opacity: 0;
-            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1), transform 1.8s cubic-bezier(0.4, 0, 0.2, 1);
             transform: scale(1.1);
         }
 
@@ -1157,9 +1344,11 @@
             }
 
             .heading-main {
-                font-size: 1.4rem !important;
-                white-space: nowrap;
+                font-size: 1.8rem !important;
+                white-space: normal;
                 overflow: visible;
+                display: block;
+                text-align: center;
             }
 
             .heading-main br {
@@ -1167,9 +1356,11 @@
             }
 
             h2.heading-main {
-                font-size: 1.6rem !important;
-                white-space: nowrap;
+                font-size: 2.2rem !important;
+                white-space: normal;
                 overflow: visible;
+                display: block;
+                text-align: center;
             }
 
             section {
@@ -1244,6 +1435,16 @@
             .info-item {
                 flex-direction: column;
                 text-align: center;
+                align-items: center;
+            }
+
+            .info-icon {
+                margin-left: 0 !important;
+                margin-bottom: 1rem;
+            }
+
+            .social-links {
+                justify-content: center;
             }
 
             .footer-grid {
@@ -1524,53 +1725,76 @@
     <section id="home" class="min-h-screen flex items-center justify-center pt-20">
         <div class="asym-container">
             <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div>
-                    <h1 class="text-5xl md:text-7xl heading-main mb-6">
+                <div class="text-center md:text-right">
+                    <h1 class="text-4xl md:text-7xl heading-main mb-6">
                         هنا تُصنع الأفكار
                     </h1>
-                    <p class="text-xl text-secondary mb-8">
+                    <p class="text-lg md:text-xl text-secondary mb-8 max-w-lg mx-auto md:mx-0">
                         نقدم خدمة تسويقية وإعلانية متكاملة تتيح لعملائنا التركيز على أعمالهم بينما نتكفل نحن بتحويل
                         منتجاتهم إلى علامات تجارية بارزة في السوق.
                     </p>
-                    <div class="flex flex-col sm:flex-row gap-4">
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                         <a href="#journey" class="btn btn-primary"><span>عش الرحلة</span></a>
                         <a href="#contact" class="btn btn-secondary">اطلب مشروعك</a>
                     </div>
                 </div>
-                <div class="hidden md:block">
-                    <!-- Hero Slider -->
-                    <div class="hero-slider-container">
-                        <div class="hero-slider-wrapper">
-                            <div class="hero-slide active">
-                                <img src="https://picsum.photos/seed/branding/600/600" alt="Branding process">
-                            </div>
-                            <div class="hero-slide">
-                                <img src="https://picsum.photos/seed/creative/600/600" alt="Creative Strategy">
-                            </div>
-                            <div class="hero-slide">
-                                <img src="https://picsum.photos/seed/shooting/600/600" alt="Video Production">
-                            </div>
-                            <div class="hero-slide">
-                                <img src="https://picsum.photos/seed/analytics/600/600" alt="Analytics & Growth">
+                <div class="mt-12 md:mt-0">
+                    <!-- Billboard Wrapper -->
+                    <div class="billboard-container">
+                        <!-- Lights -->
+                        <div class="billboard-lights">
+                            <div class="billboard-light"></div>
+                            <div class="billboard-light"></div>
+                            <div class="billboard-light"></div>
+                        </div>
+
+                        <!-- Main Frame -->
+                        <div class="billboard-frame">
+                            <!-- Hero Slider -->
+                            <div class="hero-slider-container">
+                                <!-- Digital Screen Overlay -->
+                                <div class="billboard-screen-overlay"></div>
+
+                                <div class="hero-slider-wrapper">
+                                    <div class="hero-slide active">
+                                        <img src="logo.PNG" alt="Branding process" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="hero-slide">
+                                        <img src="https://picsum.photos/seed/creative/600/600" alt="Creative Strategy"
+                                            class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="hero-slide">
+                                        <img src="https://picsum.photos/seed/shooting/600/600" alt="Video Production"
+                                            class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="hero-slide">
+                                        <img src="https://picsum.photos/seed/analytics/600/600" alt="Analytics & Growth"
+                                            class="w-full h-full object-cover">
+                                    </div>
+                                </div>
+
+                                <!-- Nav Buttons -->
+                                <div class="hero-slider-nav">
+                                    <button class="hero-nav-btn next"><i class="fas fa-arrow-left"></i></button>
+                                    <button class="hero-nav-btn prev"><i class="fas fa-arrow-right"></i></button>
+                                </div>
+
+                                <!-- Dots -->
+                                <div class="hero-slider-dots">
+                                    <span class="hero-dot active" data-index="0"></span>
+                                    <span class="hero-dot" data-index="1"></span>
+                                    <span class="hero-dot" data-index="2"></span>
+                                    <span class="hero-dot" data-index="3"></span>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Nav Buttons -->
-                        <div class="hero-slider-nav">
-                            <!-- In RTL: 'next' logically moves forward (left arrow visually often) but let's use direction agnostic icons or standard mapping. 
-                                 Right arrow usually means "Next" in LTR. In RTL usually Left arrow is "Next". 
-                                 Let's allow user to click and see. I'll use simple chevron icons. -->
-                            <button class="hero-nav-btn next"><i class="fas fa-arrow-left"></i></button>
-                            <button class="hero-nav-btn prev"><i class="fas fa-arrow-right"></i></button>
+                        <!-- Billboard Stand -->
+                        <div class="billboard-stand">
+                            <div class="pillar"></div>
+                            <div class="pillar"></div>
                         </div>
-
-                        <!-- Dots -->
-                        <div class="hero-slider-dots">
-                            <span class="hero-dot active" data-index="0"></span>
-                            <span class="hero-dot" data-index="1"></span>
-                            <span class="hero-dot" data-index="2"></span>
-                            <span class="hero-dot" data-index="3"></span>
-                        </div>
+                        <div class="billboard-base"></div>
                     </div>
                 </div>
             </div>
@@ -2286,7 +2510,7 @@
             }
 
             function startHeroAutoPlay() {
-                heroAutoPlayInterval = setInterval(nextHeroSlide, 4000);
+                heroAutoPlayInterval = setInterval(nextHeroSlide, 6000);
             }
 
             function stopHeroAutoPlay() {
@@ -2342,6 +2566,5 @@
         });
     </script>
 </body>
-
 
 </html>
