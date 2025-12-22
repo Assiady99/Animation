@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أنيميشن |خدمات تسويقية متكاملة</title>
+    <title>أنيميشن | ورشة الإبداع الخام - خدمات تسويقية متكاملة</title>
     <meta name="description"
         content="وكالة أنيميشن للدعاية والإعلان - ركيزتنا الإبداع وهدفنا نجاح علامتك التجارية. نقدم خدمات إدارة السوشال ميديا، الهوية البصرية، والإنتاج الفني.">
     <meta name="keywords"
@@ -727,6 +727,22 @@
             transform: rotate(-5deg);
         }
 
+        html,
+        body {
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Kufam', sans-serif;
+            text-align: right;
+            direction: rtl;
+            line-height: 1.6;
+        }
+
         /* Team Member */
         .team-member {
             text-align: center;
@@ -1393,6 +1409,77 @@
             width: 25px;
             border-radius: 10px;
             box-shadow: 0 0 15px var(--accent-orange);
+        }
+
+        /* --- Mobile Responsiveness for Hero Billboard --- */
+        @media (max-width: 1024px) {
+            .billboard-container {
+                max-width: 600px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .billboard-container {
+                max-width: 100%;
+                margin-top: 20px;
+                animation: floatingScreenMobile 5s infinite ease-in-out;
+            }
+
+            .hero-slider-container {
+                height: 350px;
+            }
+
+            .billboard-container::after {
+                width: 100%;
+                height: 80px;
+                bottom: -50px;
+                display: none;
+                /* Hide glow on mobile to prevent overflow issues */
+            }
+
+            .billboard-stand {
+                bottom: -60px;
+                height: 100px;
+            }
+
+            .pillar {
+                width: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-slider-container {
+                height: 280px;
+            }
+
+            .hero-slider-nav {
+                bottom: 15px;
+                right: 15px;
+                gap: 10px;
+            }
+
+            .hero-slider-dots {
+                bottom: 15px;
+                left: 15px;
+            }
+
+            .hero-nav-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @keyframes floatingScreenMobile {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
         }
 
         .billboard-base {
