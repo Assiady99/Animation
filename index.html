@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أنيميشن | ورشة الإبداع الخام - خدمات تسويقية متكاملة</title>
+    <title>أنيميشن |خدمات تسويقية متكاملة</title>
     <meta name="description"
         content="وكالة أنيميشن للدعاية والإعلان - ركيزتنا الإبداع وهدفنا نجاح علامتك التجارية. نقدم خدمات إدارة السوشال ميديا، الهوية البصرية، والإنتاج الفني.">
     <meta name="keywords"
@@ -324,59 +324,394 @@
         /* --- END OF Film Strip Navigation --- */
 
         /* Project Card */
+        /* --- Hyper-Realistic Portfolio Billboard Styles --- */
         .project-card {
-            perspective: 1000px;
-            height: 350px;
+            perspective: 1200px;
+            height: 440px;
+            margin-bottom: 4rem;
         }
 
-        .project-card-inner {
+        .mini-billboard {
             position: relative;
             width: 100%;
             height: 100%;
-            text-align: right;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .project-card:hover .project-card-inner {
-            transform: rotateY(180deg);
+        .mini-frame-wrapper {
+            position: relative;
+            width: 100%;
+            height: 320px;
+            z-index: 5;
+            transition: transform 0.4s ease;
         }
 
-        .project-card-front,
-        .project-card-back {
+        /* Removed rotation on hover */
+        .project-card:hover .mini-frame-wrapper {
+            transform: translateY(-5px);
+        }
+
+        .mini-frame {
             position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #333 0%, #1a1a1a 100%);
+            border: 1px solid #444;
+            padding: 12px;
+            border-radius: 6px;
+            box-shadow:
+                0 20px 40px rgba(0, 0, 0, 0.6),
+                inset 0 0 15px rgba(0, 0, 0, 0.8);
+            /* Metallic Bevel Effect */
+            background-image:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 50%, rgba(0, 0, 0, 0.2) 100%),
+                linear-gradient(135deg, #333 0%, #1a1a1a 100%);
+
+        }
+
+        /* Bolts/Nails on the frame */
+        .mini-frame::before,
+        .mini-frame::after,
+        .mini-frame-inner::before,
+        .mini-frame-inner::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(135deg, #666, #222);
+            border-radius: 50%;
+            box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+
+        .mini-frame::before {
+            top: 6px;
+            left: 6px;
+        }
+
+        .mini-frame::after {
+            top: 6px;
+            right: 6px;
+        }
+
+        .mini-frame-inner::before {
+            bottom: 6px;
+            left: 6px;
+        }
+
+        .mini-frame-inner::after {
+            bottom: 6px;
+            right: 6px;
+        }
+
+        .mini-frame-inner {
+            position: relative;
             width: 100%;
             height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            border-radius: 8px;
+            background: #000;
             overflow: hidden;
-            border: 2px solid var(--border-color);
+            border-radius: 2px;
+            border: 1px solid #111;
         }
 
-        .project-card-front {
-            background-color: var(--bg-card);
+        /* Cinematic Light Fixture */
+        .mini-fixture {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 15px;
+            background: #2a2a2a;
+            border: 1px solid #333;
+            border-bottom: 2px solid #555;
+            border-radius: 4px 4px 0 0;
+            z-index: 10;
+        }
+
+        /* Spotlight Beams */
+        .mini-fixture::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140%;
+            height: 180px;
+            background: conic-gradient(from 150deg at 50% 0, rgba(255, 107, 53, 0.15) 0deg, transparent 60deg);
+            filter: blur(15px);
+            pointer-events: none;
+            opacity: 0.2;
+            transition: opacity 0.4s ease;
+        }
+
+        .project-card:hover .mini-fixture::before {
+            opacity: 0.8;
+            animation: miniBeamPulse 2s infinite alternate;
+        }
+
+        @keyframes miniBeamPulse {
+            from {
+                opacity: 0.5;
+                transform: translateX(-50%) scaleX(0.9);
+            }
+
+            to {
+                opacity: 0.9;
+                transform: translateX(-50%) scaleX(1.1);
+            }
+        }
+
+        /* Advanced Screen Effect */
+        .project-card-front::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
+                radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+            background-size: 100% 3px, 100% 100%;
+            z-index: 3;
+            pointer-events: none;
+            opacity: 0.5;
+            mix-blend-mode: overlay;
+        }
+
+        /* Industrial Stand */
+        .industrial-stand {
+            position: relative;
+            width: 100%;
+            height: 120px;
+            margin-top: -5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .pillar-group {
+            display: flex;
+            justify-content: space-around;
+            width: 80%;
+            height: 90px;
+            padding: 0 40px;
+        }
+
+        .main-pillar {
+            width: 18px;
+            height: 100%;
+            background: linear-gradient(90deg, #1a1a1a 0%, #333 50%, #1a1a1a 100%);
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+
+        .support-bar {
+            position: absolute;
+            top: 35px;
+            left: 10%;
+            width: 80%;
+            height: 8px;
+            background: linear-gradient(to bottom, #2a2a2a, #111);
+            border: 1px solid #333;
+            z-index: 2;
+        }
+
+        .stand-base-plate {
+            width: 90%;
+            height: 12px;
+            background: #111;
+            border-bottom: 3px solid #000;
+            border-radius: 4px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
         }
 
         .project-card-back {
-            background-color: var(--accent-orange);
-            color: var(--bg-dark);
-            transform: rotateY(180deg);
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.4) 70%, transparent 100%);
+            color: #fff;
             padding: 1.5rem;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-end;
+            text-align: right;
+            position: absolute;
+            inset: 0;
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            backdrop-filter: blur(2px);
+        }
+
+        /* Hover Play Indicator */
+        .project-card::after {
+            content: '\f144';
+            /* FontAwesome Play circle */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.5);
+            font-size: 4rem;
+            color: var(--accent-orange);
+            opacity: 0;
+            z-index: 20;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+            text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .project-card:hover::after {
+            opacity: 1;
+            transform: translate(-50%, -100%) scale(1);
+        }
+
+        .project-card:hover .project-card-back {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .project-card-back h3 {
             font-family: 'Kufam', serif;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-orange);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         .project-card-back p {
-            font-size: 0.9rem;
-            line-height: 1.6;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .project-card-front {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+
+        .project-card-front video,
+        .project-card-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- Differentiated Billboard Types --- */
+
+        /* Digital LED Type */
+        .project-card.type-digital .mini-frame {
+            border-color: #000;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+            box-shadow:
+                0 25px 50px rgba(0, 0, 0, 0.8),
+                0 0 15px rgba(255, 107, 53, 0.1);
+        }
+
+        /* Status LED for digital frames */
+        .project-card.type-digital .mini-frame::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            width: 6px;
+            height: 6px;
+            background: #0f0;
+            border-radius: 50%;
+            box-shadow: 0 0 5px #0f0, 0 0 10px rgba(6, 255, 165, 0.5);
+            animation: statusPulse 2s infinite;
+            z-index: 15;
+        }
+
+        .project-card.type-digital .mini-frame {
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.1), inset 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes statusPulse {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(0.8);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+        }
+
+        /* LED Screen Effect override */
+        .project-card.type-digital .project-card-front::after {
+            background-image:
+                linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
+                radial-gradient(circle at center, transparent 0%, rgba(255, 107, 53, 0.05) 100%),
+                repeating-linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.02) 1px, rgba(0, 0, 255, 0.02) 2px, transparent 3px);
+            background-size: 100% 3px, 100% 100%, 3px 100%;
+            opacity: 0.8;
+            animation: digitalFlicker 5s infinite;
+        }
+
+        @keyframes digitalFlicker {
+
+            0%,
+            100% {
+                opacity: 0.8;
+            }
+
+            95% {
+                opacity: 0.8;
+            }
+
+            96% {
+                opacity: 0.4;
+            }
+
+            97% {
+                opacity: 0.8;
+            }
+
+            98% {
+                opacity: 0.6;
+            }
+
+            99% {
+                opacity: 0.8;
+            }
+        }
+
+        /* Static Printed Type */
+        .project-card.type-static .mini-frame {
+            background: linear-gradient(135deg, #444 0%, #222 100%);
+            border-color: #555;
+        }
+
+        /* Matte Texture override */
+        .project-card.type-static .project-card-front::after {
+            background-image:
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"),
+                linear-gradient(rgba(0, 0, 0, 0.05), transparent);
+            opacity: 0.15;
+            mix-blend-mode: multiply;
+            animation: none;
+        }
+
+        /* Lighting logic for static */
+        .project-card.type-static .mini-fixture::before {
+            background: conic-gradient(from 150deg at 50% 0, rgba(255, 255, 255, 0.1) 0deg, transparent 60deg);
+            opacity: 0.1;
+        }
+
+        .project-card.type-static:hover .mini-fixture::before {
+            opacity: 0.6;
+        }
+
+        /* Lighting logic for digital */
+        .project-card.type-digital .mini-fixture::before {
+            background: conic-gradient(from 150deg at 50% 0, rgba(255, 107, 53, 0.2) 0deg, transparent 60deg);
         }
 
         .project-tag {
@@ -435,6 +770,103 @@
             border-radius: 4px;
             width: 100%;
             transition: all 0.3s ease;
+        }
+
+        /* --- Premium Video Modal --- */
+        .video-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            z-index: 99999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: all 0.5s ease;
+            pointer-events: auto;
+        }
+
+        .video-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 95%;
+            max-width: 1100px;
+            aspect-ratio: 16/9;
+            background: #000;
+            border: 2px solid var(--accent-orange);
+            box-shadow: 0 0 100px rgba(255, 107, 53, 0.3);
+            border-radius: 15px;
+            overflow: hidden;
+            transform: scale(0.85);
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 100000;
+        }
+
+        .video-modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-video-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal-video-container iframe,
+        .modal-video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #fff;
+            z-index: 100001;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Kufam', sans-serif;
+            font-size: 1rem;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 107, 53, 0.5);
+        }
+
+        .modal-close:hover {
+            background: var(--accent-orange);
+            color: #000;
+        }
+
+        .modal-info {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            text-align: right;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 10px 20px;
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
+            z-index: 100001;
+            pointer-events: none;
+        }
+
+        .modal-info h2 {
+            font-family: 'Kufam', sans-serif;
+            color: var(--accent-orange);
+            font-size: 1.5rem;
+            margin-bottom: 5px;
         }
 
         .form-input:focus {
@@ -789,176 +1221,178 @@
             user-select: none;
         }
 
-        /* --- Hero Slider & Billboard Styles --- */
+        /* --- Premium Hero Exhibition Screen (Redesign) --- */
         .billboard-container {
             position: relative;
             width: 100%;
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
-            padding-bottom: 40px;
-            /* Space for the stand */
-            transform: scale(0.9);
-            transform-origin: center;
+            perspective: 2000px;
+            z-index: 10;
+            animation: floatingScreen 6s infinite ease-in-out;
         }
 
-        @media (max-width: 768px) {
-            .billboard-container {
-                transform: scale(0.85);
-                max-width: 100%;
+        @keyframes floatingScreen {
+
+            0%,
+            100% {
+                transform: translateY(0) rotateX(2deg);
             }
 
-            .billboard-stand {
-                padding: 0 50px !important;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .billboard-container {
-                transform: scale(0.85);
-                margin-top: 20px;
-                margin-bottom: 20px;
-            }
-
-            .billboard-lights {
-                padding: 0 20px !important;
-            }
-
-            .hero-slider-container {
-                height: 350px !important;
+            50% {
+                transform: translateY(-15px) rotateX(0deg);
             }
         }
 
         .billboard-frame {
             position: relative;
-            background: #2a2a2a;
-            padding: 15px;
-            border-radius: 4px;
+            background: #0a0a0a;
+            padding: 8px;
+            /* Ultra-thin bezel */
+            border-radius: 12px;
             box-shadow:
-                inset 0 0 10px rgba(0, 0, 0, 0.8),
-                0 10px 30px rgba(0, 0, 0, 0.5);
-            border: 4px solid #333;
-            z-index: 2;
-        }
-
-        .billboard-frame::before {
-            /* Metallic texture/bolts */
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            right: 2px;
-            bottom: 2px;
+                0 30px 60px rgba(0, 0, 0, 0.8),
+                0 0 20px rgba(255, 107, 53, 0.1),
+                inset 0 0 2px rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            pointer-events: none;
-        }
-
-        /* Decorative Lights */
-        .billboard-lights {
-            position: absolute;
-            top: -20px;
-            width: 100%;
-            display: flex;
-            justify-content: space-around;
-            padding: 0 50px;
-            z-index: 3;
-        }
-
-        .billboard-light {
-            width: 40px;
-            height: 15px;
-            background: #444;
-            border-radius: 4px 4px 0 0;
-            position: relative;
-        }
-
-        .billboard-light::after {
-            content: '';
-            position: absolute;
-            bottom: -50px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 100px;
-            background: radial-gradient(circle at top, rgba(255, 107, 53, 0.3) 0%, transparent 70%);
-            filter: blur(10px);
-            pointer-events: none;
-            opacity: 0.8;
-            animation: lightPulse 3s infinite alternate ease-in-out;
-        }
-
-        @keyframes lightPulse {
-            from {
-                opacity: 0.6;
-                transform: translateX(-50%) scale(0.9);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(-50%) scale(1.1);
-            }
+            overflow: visible;
         }
 
         .hero-slider-container {
             position: relative;
             width: 100%;
-            height: 400px;
+            height: 450px;
             overflow: hidden;
             background: #000;
-            /* Screen curvature effect */
-            border-radius: 8px;
-            box-shadow: inset 0 0 50px rgba(0, 0, 0, 1);
+            border-radius: 6px;
+            box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.9);
         }
 
-        /* Digital Screen Effects */
-        .billboard-screen-overlay {
+        /* Ambient Glow Floor */
+        .billboard-container::after {
+            content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
-                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-            background-size: 100% 3px, 3px 100%;
-            z-index: 5;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120%;
+            height: 150px;
+            background: radial-gradient(ellipse at center, rgba(255, 107, 53, 0.15) 0%, transparent 70%);
+            filter: blur(40px);
+            z-index: -1;
             pointer-events: none;
-            opacity: 0.4;
-            animation: screenFlicker 3s infinite;
         }
 
-        @keyframes screenFlicker {
-            0% {
-                opacity: 0.35;
-            }
-
-            50% {
-                opacity: 0.4;
-            }
-
-            100% {
-                opacity: 0.38;
-            }
-        }
-
-        /* Stand */
+        /* Sleek Exhibition Stand */
         .billboard-stand {
             position: absolute;
-            bottom: -60px;
-            left: 0;
-            width: 100%;
-            height: 100px;
+            bottom: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 160px;
+            height: 120px;
+            z-index: -1;
             display: flex;
-            justify-content: space-around;
-            padding: 0 100px;
-            z-index: 1;
+            flex-direction: column;
+            align-items: center;
         }
 
         .pillar {
-            width: 30px;
+            width: 60px;
             height: 100%;
-            background: linear-gradient(90deg, #222 0%, #333 50%, #222 100%);
-            border-left: 1px solid rgba(255, 255, 255, 0.05);
-            border-right: 1px solid rgba(0, 0, 0, 0.5);
-            box-shadow: 10px 0 20px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(to bottom, #111, #000);
+            border-radius: 4px;
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.02);
+            position: relative;
+        }
+
+        .pillar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--accent-orange), transparent);
+            opacity: 0.3;
+        }
+
+        /* Glassmorphic Navigation */
+        .hero-slider-nav {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            z-index: 30;
+            display: flex;
+            gap: 15px;
+            pointer-events: auto;
+        }
+
+        .hero-nav-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-nav-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .hero-nav-btn:hover {
+            background: rgba(255, 107, 53, 0.2);
+            border-color: var(--accent-orange);
+            color: var(--accent-orange);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-nav-btn:hover::before {
+            transform: translateX(100%);
+        }
+
+        /* Floating Pagination Dots */
+        .hero-slider-dots {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            z-index: 30;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .hero-dot {
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .hero-dot.active {
+            background: var(--accent-orange);
+            width: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px var(--accent-orange);
         }
 
         .billboard-base {
@@ -1014,64 +1448,15 @@
             pointer-events: none;
         }
 
-        /* Navigation Controls */
-        .hero-slider-nav {
+        /* Refined Screen Overlay */
+        .billboard-screen-overlay {
             position: absolute;
-            bottom: 30px;
-            right: 30px;
-            z-index: 20;
-            display: flex;
-            gap: 12px;
-        }
-
-        .hero-nav-btn {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: rgba(42, 42, 63, 0.6);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: var(--text-primary);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
-
-        .hero-nav-btn:hover {
-            background: var(--accent-orange);
-            border-color: var(--accent-orange);
-            color: var(--bg-dark);
-            transform: translateY(-2px);
-        }
-
-        /* Pagination Dots */
-        .hero-slider-dots {
-            position: absolute;
-            bottom: 30px;
-            left: 30px;
-            z-index: 20;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .hero-dot {
-            width: 10px;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .hero-dot.active {
-            background: var(--accent-teal);
-            width: 25px;
-            /* Pill shape for active */
-            border-radius: 10px;
+            inset: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%);
+            background-size: 100% 4px;
+            z-index: 10;
+            pointer-events: none;
+            opacity: 0.2;
         }
 
         /* --- Contact Section Improvements --- */
@@ -1288,6 +1673,17 @@
                 justify-content: space-between;
                 text-align: right;
             }
+        }
+
+        .project-card {
+            cursor: pointer;
+            visibility: visible !important;
+            opacity: 1 !important;
+            transition: all 0.4s ease;
+            display: block;
+            position: relative;
+            z-index: 50;
+            pointer-events: auto !important;
         }
 
         .copyright {
@@ -1752,15 +2148,8 @@
                     </div>
                 </div>
                 <div class="mt-12 md:mt-0">
-                    <!-- Billboard Wrapper -->
+                    <!-- Premium Exhibition Screen Wrapper -->
                     <div class="billboard-container">
-                        <!-- Lights -->
-                        <div class="billboard-lights">
-                            <div class="billboard-light"></div>
-                            <div class="billboard-light"></div>
-                            <div class="billboard-light"></div>
-                        </div>
-
                         <!-- Main Frame -->
                         <div class="billboard-frame">
                             <!-- Hero Slider -->
@@ -1802,12 +2191,10 @@
                             </div>
                         </div>
 
-                        <!-- Billboard Stand -->
+                        <!-- Sleek Stand -->
                         <div class="billboard-stand">
                             <div class="pillar"></div>
-                            <div class="pillar"></div>
                         </div>
-                        <div class="billboard-base"></div>
                     </div>
                 </div>
             </div>
@@ -1960,7 +2347,8 @@
     </section>
 
     <!-- IMPROVED Portfolio Section -->
-    <section id="portfolio" class="py-20" style="background-color: var(--bg-card);">
+    <section id="portfolio" class="py-20 relative z-10"
+        style="background-color: var(--bg-card); min-height: 800px; display: block !important;">
         <div class="asym-container">
             <h2 class="text-4xl md:text-6xl heading-main mb-16">دفتر أعمالنا</h2>
 
@@ -1975,81 +2363,163 @@
 
             <!-- Asymmetrical Project Grid -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-auto">
-                <!-- Project 1: Large -->
-                <div class="project-card md:col-span-2 row-span-2" data-category="campaign">
-                    <div class="project-card-inner">
-                        <div class="project-card-front">
-                            <span class="project-tag">حملة إعلانية</span>
-                            <img src="https://picsum.photos/seed/diora-jewelry/600/600" alt="Diora Jewelry Campaign"
-                                class="w-full h-full object-cover">
+                <!-- Project 1: Large (Digital Video) -->
+                <div class="project-card md:col-span-2 row-span-2 type-digital" data-category="campaign"
+                    data-video="https://assets.mixkit.co/videos/preview/mixkit-digital-city-map-interface-2384-large.mp4">
+                    <div class="mini-billboard">
+                        <div class="mini-fixture"></div>
+                        <div class="mini-frame-wrapper">
+                            <div class="mini-frame">
+                                <div class="mini-frame-inner">
+                                    <div class="project-card-front">
+                                        <span class="project-tag">حملة إعلانية</span>
+                                        <video autoplay muted loop playsinline class="w-full h-full object-cover">
+                                            <source
+                                                src="https://assets.mixkit.co/videos/preview/mixkit-digital-city-map-interface-2384-large.mp4"
+                                                type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <div class="project-card-back">
+                                        <h3>حملة "الثقة" لبنك الشرق</h3>
+                                        <p>تحليل البيانات والنمو الرقمي عبر منصات الإعلان العالمية.</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="project-card-back">
-                            <h3>حملة "الثقة" لمجوهرات ديورا</h3>
-                            <p><strong>التحدي:</strong> إطلاق منتج جديد في سوق متنافس وبناء ثقة العملاء.</p>
-                            <p><strong>الحل:</strong> حملة متكاملة شملت فيديو ترويجي، صور احترافية، حملة دعائية خارجية،
-                                وإدارة سوشيال ميديا.</p>
-                            <p><strong>النتيجة:</strong> نجاح الحملة وزيادة الوعي بالعلامة التجارية بنسبة 40% في الشهر
-                                الأول.</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Project 2: Small -->
-                <div class="project-card" data-category="branding">
-                    <div class="project-card-inner">
-                        <div class="project-card-front">
-                            <span class="project-tag">هوية بصرية</span>
-                            <img src="https://picsum.photos/seed/coffee-brand/300/300" alt="Coffee Branding"
-                                class="w-full h-full object-cover">
-                        </div>
-                        <div class="project-card-back">
-                            <h3>هوية "قهوة الصباح"</h3>
-                            <p><strong>التحدي:</strong> تصميم هوية عصرية تجذب الشباب.</p>
-                            <p><strong>الحل:</strong> شعار، ألوان، وتغليف منتج يعكس الطاقة الحيوية.</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Project 3: Small -->
-                <div class="project-card" data-category="video">
-                    <div class="project-card-inner">
-                        <div class="project-card-front">
-                            <span class="project-tag">فيديو</span>
-                            <img src="https://picsum.photos/seed/restaurant-promo/300/300" alt="Restaurant Promo"
-                                class="w-full h-full object-cover">
-                        </div>
-                        <div class="project-card-back">
-                            <h3>فيديو "مطعم الأصايل"</h3>
-                            <p><strong>التحدي:</strong> عرض الأجواء الفاخرة للمطعم.</p>
-                            <p><strong>الحل:</strong> تصوير سينمائي للمطعم مع مونتاج احترافي وموسيقى تصويرية مناسبة.</p>
+                        <div class="industrial-stand">
+                            <div class="pillar-group">
+                                <div class="main-pillar"></div>
+                                <div class="main-pillar"></div>
+                            </div>
+                            <div class="support-bar"></div>
+                            <div class="stand-base-plate"></div>
                         </div>
                     </div>
                 </div>
-                <!-- Project 4: Wide -->
-                <div class="project-card md:col-span-2" data-category="printing">
-                    <div class="project-card-inner">
-                        <div class="project-card-front">
-                            <span class="project-tag">مطبوعات</span>
-                            <img src="https://picsum.photos/seed/event-brochure/600/300" alt="Event Brochure"
-                                class="w-full h-full object-cover">
+
+                <!-- Project 2: Small (Static Branding) -->
+                <div class="project-card type-static" data-category="branding"
+                    data-video="https://assets.mixkit.co/videos/preview/mixkit-logo-animation-process-in-a-graphic-tablet-2442-large.mp4">
+                    <div class="mini-billboard">
+                        <div class="mini-fixture"></div>
+                        <div class="mini-frame-wrapper">
+                            <div class="mini-frame">
+                                <div class="mini-frame-inner">
+                                    <div class="project-card-front">
+                                        <span class="project-tag">هوية بصرية</span>
+                                        <img src="https://picsum.photos/seed/coffee-brand/300/300" alt="Coffee Branding"
+                                            class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="project-card-back">
+                                        <h3>هوية "قهوة الصباح"</h3>
+                                        <p>تصميم متكامل يعكس الجودة والطاقة الحيوية.</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="project-card-back">
-                            <h3>بروشور "مؤتمر التقنية"</h3>
-                            <p><strong>التحدي:</strong> تصميم بروشور يعكس طبيعة المؤتمر التقنية.</p>
-                            <p><strong>الحل:</strong> تصميم عصري ونظيف مع معلومات منظمة وجذابة.</p>
+                        <div class="industrial-stand">
+                            <div class="pillar-group">
+                                <div class="main-pillar"></div>
+                                <div class="main-pillar"></div>
+                            </div>
+                            <div class="support-bar"></div>
+                            <div class="stand-base-plate"></div>
                         </div>
                     </div>
                 </div>
-                <!-- Project 5: Small -->
-                <div class="project-card" data-category="branding">
-                    <div class="project-card-inner">
-                        <div class="project-card-front">
-                            <span class="project-tag">هوية بصرية</span>
-                            <img src="https://picsum.photos/seed/tech-startup/300/300" alt="Tech Startup"
-                                class="w-full h-full object-cover">
+                <!-- Project 3: Small (Digital Video) -->
+                <div class="project-card type-digital" data-category="video"
+                    data-video="https://assets.mixkit.co/videos/preview/mixkit-glitter-on-a-black-background-4530-large.mp4">
+                    <div class="mini-billboard">
+                        <div class="mini-fixture"></div>
+                        <div class="mini-frame-wrapper">
+                            <div class="mini-frame">
+                                <div class="mini-frame-inner">
+                                    <div class="project-card-front">
+                                        <span class="project-tag">فيديو</span>
+                                        <video autoplay muted loop playsinline class="w-full h-full object-cover">
+                                            <source
+                                                src="https://assets.mixkit.co/videos/preview/mixkit-glitter-on-a-black-background-4530-large.mp4"
+                                                type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <div class="project-card-back">
+                                        <h3>برومو "مجوهرات براق"</h3>
+                                        <p>تصوير سينمائي ومؤثرات بصرية ساحرة للمنتجات الفاخرة.</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="project-card-back">
-                            <h3>هوية "تقنية العصر"</h3>
-                            <p><strong>التحدي:</strong> بناء هوية بصرية لشركة ناشئة في مجال الذكاء الاصطناعي.</p>
-                            <p><strong>الحل:</strong> شعار ديناميكي وهوية مرنة للاستخدام الرقمي.</p>
+                        <div class="industrial-stand">
+                            <div class="pillar-group">
+                                <div class="main-pillar"></div>
+                                <div class="main-pillar"></div>
+                            </div>
+                            <div class="support-bar"></div>
+                            <div class="stand-base-plate"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4: Wide (Static Printing) -->
+                <div class="project-card md:col-span-2 type-static" data-category="printing"
+                    data-video="https://assets.mixkit.co/videos/preview/mixkit-professional-printing-machine-printing-a-banner-4340-large.mp4">
+                    <div class="mini-billboard">
+                        <div class="mini-fixture"></div>
+                        <div class="mini-frame-wrapper">
+                            <div class="mini-frame">
+                                <div class="mini-frame-inner">
+                                    <div class="project-card-front">
+                                        <span class="project-tag">مطبوعات</span>
+                                        <img src="https://picsum.photos/seed/event-brochure/600/300"
+                                            alt="Event Brochure" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="project-card-back">
+                                        <h3>بروشور "مؤتمر التقنية"</h3>
+                                        <p>تصميم عصري ونظيف يبرز أهم ملامح الحدث السنوي.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="industrial-stand">
+                            <div class="pillar-group">
+                                <div class="main-pillar"></div>
+                                <div class="main-pillar"></div>
+                                <div class="main-pillar"></div>
+                            </div>
+                            <div class="support-bar"></div>
+                            <div class="stand-base-plate"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5: Small (Static Branding) -->
+                <div class="project-card type-static" data-category="branding"
+                    data-video="https://assets.mixkit.co/videos/preview/mixkit-website-interface-animation-mockup-in-a-laptop-4433-large.mp4">
+                    <div class="mini-billboard">
+                        <div class="mini-fixture"></div>
+                        <div class="mini-frame-wrapper">
+                            <div class="mini-frame">
+                                <div class="mini-frame-inner">
+                                    <div class="project-card-front">
+                                        <span class="project-tag">هوية بصرية</span>
+                                        <img src="https://picsum.photos/seed/tech-startup/300/300" alt="Tech Startup"
+                                            class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="project-card-back">
+                                        <h3>هوية "تقنية العصر"</h3>
+                                        <p>بناء علامة تجارية قوية لشركات الذكاء الاصطناعي الناشئة.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="industrial-stand">
+                            <div class="pillar-group">
+                                <div class="main-pillar"></div>
+                                <div class="main-pillar"></div>
+                            </div>
+                            <div class="support-bar"></div>
+                            <div class="stand-base-plate"></div>
                         </div>
                     </div>
                 </div>
@@ -2577,7 +3047,103 @@
                 behavior: 'smooth'
             });
         });
+
+        // --- VIDEO MODAL LOGIC (FINAL ROBUST VERSION) ---
+        window.addEventListener('load', () => {
+            const videoModal = document.getElementById('videoModal');
+            const modalVideo = document.getElementById('modalVideo');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalClose = document.getElementById('modalClose');
+
+            if (!videoModal) return;
+
+            // Direct click listeners for all current cards
+            function attachCardListeners() {
+                const cards = document.querySelectorAll('.project-card');
+                cards.forEach(card => {
+                    // Remove existing listeners if any (optional but safer)
+                    card.onclick = (e) => {
+                        e.preventDefault();
+                        const videoUrl = card.getAttribute('data-video');
+                        const title = card.querySelector('h3') ? card.querySelector('h3').innerText : "مشروع إبداعي";
+
+                        if (videoUrl && modalVideo) {
+                            modalVideo.src = videoUrl;
+                            modalTitle.innerText = title;
+                            videoModal.classList.add('active');
+                            document.body.style.overflow = 'hidden';
+                            modalVideo.load();
+                            modalVideo.play().catch(err => console.log("Silent play fail:", err));
+                        }
+                    };
+                });
+            }
+
+            attachCardListeners();
+
+            // Also keep delegation for filtered items
+            document.addEventListener('click', (e) => {
+                const card = e.target.closest('.project-card');
+                if (card && !videoModal.classList.contains('active')) {
+                    const videoUrl = card.getAttribute('data-video');
+                    const titleNode = card.querySelector('h3');
+                    if (videoUrl) {
+                        modalVideo.src = videoUrl;
+                        if (titleNode) modalTitle.innerText = titleNode.innerText;
+                        videoModal.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                        modalVideo.load();
+                        modalVideo.play().catch(e => { });
+                    }
+                }
+            });
+
+            function closeVideoModal() {
+                videoModal.classList.remove('active');
+                if (modalVideo) modalVideo.src = '';
+                document.body.style.overflow = '';
+            }
+
+            if (modalClose) modalClose.onclick = closeVideoModal;
+
+            videoModal.onclick = (e) => {
+                if (e.target === videoModal) closeVideoModal();
+            };
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeVideoModal();
+            });
+        });
+
+        // Failsafe: Ensure all project cards are visible on load
+        window.addEventListener('load', () => {
+            const cards = document.querySelectorAll('.project-card');
+            cards.forEach(card => {
+                card.style.display = 'block';
+                card.style.opacity = '1';
+                card.style.visibility = 'visible';
+            });
+            console.log("Portfolio visibility failsafe triggered. Count:", cards.length);
+        });
     </script>
+
+    <!-- Video Modal Structure -->
+    <div id="videoModal" class="video-modal">
+        <div class="modal-content">
+            <div id="modalClose" class="modal-close">
+                <span>إغلاق</span>
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="modal-video-container">
+                <video id="modalVideo" controls autoplay playsinline class="w-full h-full">
+                    <source src="" type="video/mp4">
+                </video>
+            </div>
+            <div class="modal-info">
+                <h2 id="modalTitle">اسم المشروع</h2>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
