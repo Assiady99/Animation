@@ -283,6 +283,137 @@
 
         /* --- END OF SLIDESHOW JOURNEY SECTION --- */
 
+        /* --- GSAP CENTRAL PULSE SECTION --- */
+        /* --- SIMPLE STANDARD CLIENTS GRID --- */
+        .simple-clients-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            /* 2 per row on mobile */
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 1rem;
+        }
+
+        .client-box {
+            background: #fff;
+            border-radius: 8px;
+            /* Slight rounding for polish */
+            height: 160px;
+            /* Fixed height for uniformity */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        /* Slight hover lift just for feel, nothing crazy */
+        .client-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .client-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            /* No filters, just natural images */
+        }
+
+        @media (min-width: 768px) {
+            .simple-clients-grid {
+                grid-template-columns: repeat(4, 1fr);
+                /* 4 per row on desktop */
+                gap: 3rem;
+            }
+        }
+
+        .experience-logos img {
+            width: 0vw;
+            height: 0vw;
+            border-radius: 400px;
+            /* Circular */
+            position: absolute;
+            /* Stack them */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            /* Centered but handled by GSAP width/height mostly */
+            object-fit: cover;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+            /* Add some glow */
+        }
+
+        @media (min-width: 768px) {
+            .clients-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .client-card-luxury {
+            background: linear-gradient(145deg, #1e1e24, #25252b);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            aspect-ratio: 1/1;
+            /* Square cards */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .client-card-luxury::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(212, 175, 55, 0.1), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .client-card-luxury:hover {
+            transform: translateY(-10px);
+            border-color: #D4AF37;
+            /* Gold */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 15px rgba(212, 175, 55, 0.2);
+        }
+
+        .client-card-luxury:hover::before {
+            opacity: 1;
+        }
+
+        .client-name {
+            font-family: 'Kufam', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ccc;
+            z-index: 2;
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        .client-card-luxury:hover .client-name {
+            color: #D4AF37;
+            transform: scale(1.1);
+        }
+
+        .client-icon-placeholder {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.1);
+            transition: 0.3s;
+        }
+
+        .client-card-luxury:hover .client-icon-placeholder {
+            color: #D4AF37;
+            transform: rotate(10deg);
+        }
+
         /* --- Film Strip Navigation --- */
         .film-strip-nav {
             display: flex;
@@ -452,6 +583,7 @@
         }
 
         @keyframes miniBeamPulse {
+
             from {
                 opacity: 0.5;
                 transform: translateX(-50%) scaleX(0.9);
@@ -2190,7 +2322,6 @@
                 <a href="#journey" class="nav-link">رحلة الإنتاج</a>
                 <a href="#services" class="nav-link">خدماتنا</a>
                 <a href="#portfolio" class="nav-link">أعمالنا</a>
-                <a href="advertising.html" class="nav-link text-orange-400">معرض الحملات</a>
                 <a href="#clients" class="nav-link">عملاؤنا</a>
                 <a href="#contact" class="nav-link">تواصل</a>
             </div>
@@ -2212,7 +2343,6 @@
         <a href="#journey" class="mobile-nav-link">رحلة الإنتاج</a>
         <a href="#services" class="mobile-nav-link">خدماتنا</a>
         <a href="#portfolio" class="mobile-nav-link">أعمالنا</a>
-        <a href="advertising.html" class="mobile-nav-link text-orange-400">معرض الحملات</a>
         <a href="#clients" class="mobile-nav-link">عملاؤنا</a>
         <a href="#contact" class="mobile-nav-link">تواصل</a>
     </div>
@@ -2613,31 +2743,38 @@
         </div>
     </section>
 
-    <!-- Clients Section -->
-    <section id="clients" class="py-20">
-        <div class="asym-container">
-            <h2 class="text-4xl md:text-6xl heading-main mb-16">نثق في شركائنا</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="sketch-card text-center">
-                    <i class="fas fa-store text-5xl text-orange-400 mb-4"></i>
-                    <h3 class="text-2xl font-bold mb-3">القطاع التجاري</h3>
-                    <p class="text-secondary">نخدم الشركات، المصانع، محلات التجزئة، المطاعم، الكافيات، والمولات بكل ما
-                        تحتاجه من حلول تسويقية.</p>
-                </div>
-                <div class="sketch-card text-center">
-                    <i class="fas fa-building text-5xl text-orange-400 mb-4"></i>
-                    <h3 class="text-2xl font-bold mb-3">القطاع الخاص</h3>
-                    <p class="text-secondary">نقدم خدماتنا للبنوك، شركات الاتصالات، المستشفيات، الصيدليات، الجامعات،
-                        والمختبرات.</p>
-                </div>
-                <div class="sketch-card text-center">
-                    <i class="fas fa-landmark text-5xl text-orange-400 mb-4"></i>
-                    <h3 class="text-2xl font-bold mb-3">القطاع العام</h3>
-                    <p class="text-secondary">نتعاون مع الوزارات، المؤسسات الرسمية، والجهات الحكومية لتقديم رسائلها
-                        بفعالية وإبداع.</p>
-                </div>
+    <!-- Clients Section (Final - Simple Natural Grid) -->
+    <section id="clients" class="py-20 relative">
+
+        <!-- Header -->
+        <div class="asym-container relative z-20 w-full text-center">
+            <h2 class="text-4xl md:text-6xl heading-main mb-6">شركاء النجاح</h2>
+            <div class="w-32 h-1 bg-gradient-to-r from-transparent via-yellow-600 to-transparent mx-auto mb-16"></div>
+        </div>
+
+        <!-- Simple Grid -->
+        <div class="simple-clients-grid">
+            <!-- Diura -->
+            <div class="client-box">
+                <img src="diora.jpeg" alt="Diura">
+            </div>
+
+            <!-- Al-Nukhba -->
+            <div class="client-box">
+                <img src="Al-Nukhba.jpeg" alt="Al-Nukhba">
+            </div>
+
+            <!-- Al-Raheeq -->
+            <div class="client-box">
+               <img src="Al-Raheeq.png" alt="Al-Raheeq">
+            </div>
+
+            <!-- Zamzam -->
+            <div class="client-box">
+                <img src="zamzam.png" alt="Zamzam Yemen">
             </div>
         </div>
+
     </section>
 
     <!-- Contact Section -->
@@ -3211,6 +3348,8 @@
             });
             console.log("Portfolio visibility failsafe triggered. Count:", cards.length);
         });
+
+        // --- GSAP PULSE ANIMATION REMOVED ---
     </script>
 
     <!-- Video Modal Structure -->
