@@ -151,6 +151,39 @@
             background: linear-gradient(180deg, var(--bg-dark) 0%, #2a2a3f 50%, var(--bg-dark) 100%);
         }
 
+        .journey-heading h2,
+        .journey-title {
+            white-space: nowrap;
+            overflow: visible;
+        }
+
+        /* Extra small screens */
+        @media (max-width: 480px) {
+
+            .journey-heading h2,
+            .journey-title {
+                font-size: 1.5rem !important;
+            }
+        }
+
+        /* Small screens */
+        @media (min-width: 481px) and (max-width: 640px) {
+
+            .journey-heading h2,
+            .journey-title {
+                font-size: 1.75rem !important;
+            }
+        }
+
+        /* Medium small screens */
+        @media (min-width: 641px) and (max-width: 768px) {
+
+            .journey-heading h2,
+            .journey-title {
+                font-size: 2.25rem !important;
+            }
+        }
+
 
         .slideshow-container {
             position: relative;
@@ -2348,6 +2381,38 @@
             font-weight: bold;
         }
 
+        /* Mobile: Move arrows below cards */
+        @media (max-width: 767px) {
+
+            .journey-swiper .swiper-button-next,
+            .journey-swiper .swiper-button-prev {
+                top: auto;
+                bottom: 20px;
+                width: 45px;
+                height: 45px;
+                z-index: 20;
+            }
+
+            .journey-swiper .swiper-button-prev {
+                left: calc(50% - 60px);
+                right: auto;
+            }
+
+            .journey-swiper .swiper-button-next {
+                right: calc(50% - 60px);
+                left: auto;
+            }
+
+            .journey-swiper .swiper-button-next:after,
+            .journey-swiper .swiper-button-prev:after {
+                font-size: 18px;
+            }
+
+            .journey-swiper .swiper-pagination {
+                bottom: 75px !important;
+            }
+        }
+
         @media (max-width: 767px) {
             .journey-swiper .swiper-slide {
                 width: 85%;
@@ -2355,7 +2420,8 @@
             }
 
             .journey-swiper {
-                padding: 40px 10px 70px;
+                padding: 40px 10px 100px;
+                /* Increased bottom padding for arrows */
             }
 
             .film-frame {
@@ -2559,7 +2625,7 @@
     <section id="journey" class="slide-show-journey py-20 relative bg-zinc-900/50">
         <div class="asym-container">
             <div class="journey-heading mb-16 text-center">
-                <h2 class="text-4xl md:text-6xl heading-main text-white">رحلة الإنتاج السينمائية</h2>
+                <h2 class="text-4xl md:text-6xl heading-main text-white journey-title">رحلة الإنتاج السينمائية</h2>
                 <p class="text-secondary mt-4 max-w-2xl mx-auto">خطوات مدروسة تحول فكرتك إلى واقع مبهر</p>
             </div>
             <!-- Swiper -->
