@@ -14,6 +14,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;900&family=Kufam:wght@700;900&display=swap');
@@ -142,18 +146,11 @@
         /* --- SLIDESHOW JOURNEY SECTION --- */
         .slideshow-journey {
             position: relative;
-            padding: 10rem 0;
+            padding: 5rem 0;
             overflow: hidden;
             background: linear-gradient(180deg, var(--bg-dark) 0%, #2a2a3f 50%, var(--bg-dark) 100%);
         }
 
-        .journey-heading {
-            position: absolute;
-            top: 5%;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-        }
 
         .slideshow-container {
             position: relative;
@@ -178,60 +175,6 @@
             }
         }
 
-        .film-frame {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color: var(--bg-card);
-            border: 3px solid #222;
-            border-radius: 8px;
-            padding: 2rem;
-            /* FIX: Use flexbox to center content vertically */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            overflow: hidden;
-            opacity: 0;
-            transform: scale(0.9);
-            transition: all 0.5s ease-in-out;
-        }
-
-        .film-frame.active {
-            opacity: 1;
-            transform: scale(1);
-            border-color: var(--accent-orange);
-        }
-
-        .film-frame::before {
-            /* Tape effect */
-            content: '';
-            position: absolute;
-            top: -10px;
-            right: 20%;
-            width: 80px;
-            height: 30px;
-            background: rgba(255, 255, 224, 0.5);
-            transform: rotate(-5deg);
-            opacity: 0.7;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .film-frame::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 20%;
-            width: 80px;
-            height: 30px;
-            background: rgba(255, 255, 224, 0.5);
-            transform: rotate(5deg);
-            opacity: 0.7;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-
         .frame-number {
             position: absolute;
             top: 1rem;
@@ -242,6 +185,7 @@
             color: rgba(255, 107, 53, 0.2);
             z-index: 0;
         }
+
 
         .frame-icon {
             width: 80px;
@@ -2271,6 +2215,168 @@
                 height: 150px;
             }
         }
+
+        /* Journey Swiper Styling - Enhanced for Clarity */
+        .swiper.journey-swiper {
+            width: 100%;
+            padding: 50px 20px 80px;
+            overflow: visible;
+        }
+
+        .journey-swiper .swiper-slide {
+            width: 340px;
+            min-height: 420px;
+            opacity: 1;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .journey-swiper .swiper-slide-active .film-frame {
+            transform: scale(1.05);
+            box-shadow: 0 25px 70px rgba(255, 107, 53, 0.4),
+                0 0 0 3px var(--accent-orange);
+        }
+
+        .journey-swiper .swiper-slide-prev .film-frame,
+        .journey-swiper .swiper-slide-next .film-frame {
+            opacity: 0.7;
+            transform: scale(0.95);
+        }
+
+        .film-frame {
+            width: 100%;
+            min-height: 420px;
+            margin: 0;
+            background: linear-gradient(135deg, rgba(36, 36, 42, 0.98) 0%, rgba(26, 26, 31, 1) 100%);
+            border: 3px solid rgba(255, 107, 53, 0.3);
+            border-radius: 12px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 2rem 1.8rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .film-frame:hover {
+            border-color: var(--accent-orange);
+            box-shadow: 0 20px 60px rgba(255, 107, 53, 0.35);
+        }
+
+        .frame-number {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 3.5rem !important;
+            opacity: 0.1 !important;
+            font-weight: 900 !important;
+            color: var(--accent-orange) !important;
+        }
+
+        .frame-icon {
+            width: 65px;
+            height: 65px;
+            font-size: 2.5rem !important;
+            color: var(--bg-dark) !important;
+            background: var(--accent-orange) !important;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.3rem !important;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+        }
+
+        .frame-title {
+            font-size: 1.5rem !important;
+            color: var(--text-primary) !important;
+            margin-bottom: 1rem !important;
+            font-weight: 700 !important;
+            line-height: 1.3 !important;
+        }
+
+        .frame-description {
+            color: var(--text-secondary) !important;
+            line-height: 1.6 !important;
+            font-size: 0.9rem !important;
+            max-width: 100%;
+        }
+
+        .journey-swiper .swiper-pagination {
+            bottom: 30px !important;
+        }
+
+        .journey-swiper .swiper-pagination-bullet {
+            background: var(--text-secondary);
+            opacity: 0.5;
+            width: 14px;
+            height: 14px;
+            margin: 0 8px !important;
+            transition: all 0.3s ease;
+        }
+
+        .journey-swiper .swiper-pagination-bullet-active {
+            background: var(--accent-orange);
+            opacity: 1;
+            width: 45px;
+            border-radius: 7px;
+        }
+
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: var(--accent-orange);
+            background: rgba(36, 36, 42, 0.95);
+            border: 3px solid var(--accent-orange);
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .swiper-button-next:hover,
+        .swiper-button-prev:hover {
+            background: var(--accent-orange);
+            color: var(--bg-dark);
+            transform: scale(1.15);
+        }
+
+        .swiper-button-next:after,
+        .swiper-button-prev:after {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 767px) {
+            .journey-swiper .swiper-slide {
+                width: 85%;
+                min-height: 400px;
+            }
+
+            .journey-swiper {
+                padding: 40px 10px 70px;
+            }
+
+            .film-frame {
+                min-height: 400px;
+                padding: 1.8rem 1.5rem;
+            }
+
+            .frame-icon {
+                width: 55px;
+                height: 55px;
+                font-size: 2rem !important;
+            }
+
+            .frame-title {
+                font-size: 1.3rem !important;
+            }
+
+            .frame-description {
+                font-size: 0.85rem !important;
+            }
+        }
     </style>
 </head>
 
@@ -2450,70 +2556,81 @@
         </div>
     </section>
     <!-- SLIDESHOW Production Journey Section -->
-    <section id="journey" class="slideshow-journey">
-        <div class="journey-heading">
-            <h2 class="text-4xl md:text-6xl heading-main text-white">رحلة الإنتاج السينمائية</h2>
-        </div>
+    <section id="journey" class="slide-show-journey py-20 relative bg-zinc-900/50">
         <div class="asym-container">
-            <div class="slideshow-container">
-                <!-- Frame 1 -->
-                <div class="film-frame active" data-frame="1">
-                    <span class="frame-number">01</span>
-                    <div class="frame-icon"><i class="fas fa-lightbulb"></i></div>
-                    <h3 class="frame-title">الفكرة والاستراتيجية</h3>
-                    <p class="frame-description">
-                        نبدأ بفهم عميق لسوقك، منافسيك، وجمهورك المستهدف. نحدد أهداف الحملة ونضع استراتيجية واضحة تضمن أن
-                        كل خطوة تالية تخدم هدفك النهائي.
-                    </p>
-                </div>
-                <!-- Frame 2 -->
-                <div class="film-frame" data-frame="2">
-                    <span class="frame-number">02</span>
-                    <div class="frame-icon"><i class="fas fa-pencil-ruler"></i></div>
-                    <h3 class="frame-title">التصميم والقصة المصورة</h3>
-                    <p class="frame-description">
-                        نحول الاستراتيجية إلى أفكار إبداعية مرئية. نقوم بتصميم الشعارات، اختيار الألوان، وإنشاء القصص
-                        المصورة التي تحدد مشاهد الفيديو أو الإعلان.
-                    </p>
-                </div>
-                <!-- Frame 3 -->
-                <div class="film-frame" data-frame="3">
-                    <span class="frame-number">03</span>
-                    <div class="frame-icon"><i class="fas fa-camera"></i></div>
-                    <h3 class="frame-title">الإنتاج والتصوير</h3>
-                    <p class="frame-description">
-                        نقوم بتنفيذ التصاميم على أرض الواقع. سواء كان ذلك تصوير المنتجات في استوديونا، إنتاج الفيديوهات
-                        الترويجية، أو طباعة المطبوعات الدعائية.
-                    </p>
-                </div>
-                <!-- Frame 4 -->
-                <div class="film-frame" data-frame="4">
-                    <span class="frame-number">04</span>
-                    <div class="frame-icon"><i class="fas fa-rocket"></i></div>
-                    <h3 class="frame-title">الإطلاق والتسويق</h3>
-                    <p class="frame-description">
-                        نطلق الحملة الإعلانية عبر القنوات المحددة. سواء كانت لوحات إعلانية في الشوارع، حملات ممولة على
-                        منصات التواصل الاجتماعي، أو إرسال المواد الدعائية.
-                    </p>
-                </div>
-                <!-- Frame 5 -->
-                <div class="film-frame" data-frame="5">
-                    <span class="frame-number">05</span>
-                    <div class="frame-icon"><i class="fas fa-chart-line"></i></div>
-                    <h3 class="frame-title">التحليل والتحسين</h3>
-                    <p class="frame-description">
-                        نراقب أداء الحملة باستمرار باستخدام أدوات التحليل. نقيس النتائج مقابل الأهداف المحددة ونقدم
-                        تقارير دورية للعميل. بناءً على البيانات، نقترح تحسينات مستمرة.
-                    </p>
-                </div>
+            <div class="journey-heading mb-16 text-center">
+                <h2 class="text-4xl md:text-6xl heading-main text-white">رحلة الإنتاج السينمائية</h2>
+                <p class="text-secondary mt-4 max-w-2xl mx-auto">خطوات مدروسة تحول فكرتك إلى واقع مبهر</p>
             </div>
-            <!-- Film Strip Navigation -->
-            <div class="film-strip-nav">
-                <button class="nav-dot active" data-target="1">1</button>
-                <button class="nav-dot" data-target="2">2</button>
-                <button class="nav-dot" data-target="3">3</button>
-                <button class="nav-dot" data-target="4">4</button>
-                <button class="nav-dot" data-target="5">5</button>
+            <!-- Swiper -->
+            <div class="swiper journey-swiper">
+                <div class="swiper-wrapper">
+                    <!-- Slide 1 -->
+                    <div class="swiper-slide">
+                        <div class="film-frame">
+                            <span class="frame-number">01</span>
+                            <div class="frame-icon"><i class="fas fa-lightbulb"></i></div>
+                            <h3 class="frame-title">الفكرة والاستراتيجية</h3>
+                            <p class="frame-description">
+                                نبدأ بفهم عميق لسوقك، منافسيك، وجمهورك المستهدف. نحدد أهداف الحملة ونضع استراتيجية واضحة
+                                تضمن أن كل خطوة تالية تخدم هدفك النهائي.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="swiper-slide">
+                        <div class="film-frame">
+                            <span class="frame-number">02</span>
+                            <div class="frame-icon"><i class="fas fa-pencil-ruler"></i></div>
+                            <h3 class="frame-title">التصميم والقصة المصورة</h3>
+                            <p class="frame-description">
+                                نحول الاستراتيجية إلى أفكار إبداعية مرئية. نقوم بتصميم الشعارات، اختيار الألوان، وإنشاء
+                                القصص المصورة التي تحدد مشاهد الفيديو أو الإعلان.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Slide 3 -->
+                    <div class="swiper-slide">
+                        <div class="film-frame">
+                            <span class="frame-number">03</span>
+                            <div class="frame-icon"><i class="fas fa-camera"></i></div>
+                            <h3 class="frame-title">الإنتاج والتصوير</h3>
+                            <p class="frame-description">
+                                نقوم بتنفيذ التصاميم على أرض الواقع. سواء كان ذلك تصوير المنتجات في استوديونا، إنتاج
+                                الفيديوهات الترويجية، أو طباعة المطبوعات الدعائية.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Slide 4 -->
+                    <div class="swiper-slide">
+                        <div class="film-frame">
+                            <span class="frame-number">04</span>
+                            <div class="frame-icon"><i class="fas fa-rocket"></i></div>
+                            <h3 class="frame-title">الإطلاق والتسويق</h3>
+                            <p class="frame-description">
+                                نطلق الحملة الإعلانية عبر القنوات المحددة. سواء كانت لوحات إعلانية في الشوارع، حملات
+                                ممولة على منصات التواصل الاجتماعي، أو إرسال المواد الدعائية.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Slide 5 -->
+                    <div class="swiper-slide">
+                        <div class="film-frame">
+                            <span class="frame-number">05</span>
+                            <div class="frame-icon"><i class="fas fa-chart-line"></i></div>
+                            <h3 class="frame-title">التحليل والتحسين</h3>
+                            <p class="frame-description">
+                                نراقب أداء الحملة باستمرار باستخدام أدوات التحليل. نقيس النتائج مقابل الأهداف المحددة
+                                ونقدم تقارير دورية للعميل. بناءً على البيانات، نقترح تحسينات.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Pagination -->
+                <div class="swiper-pagination"></div>
+                <!-- Navigation -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
             </div>
         </div>
     </section>
@@ -2766,7 +2883,7 @@
 
             <!-- Al-Raheeq -->
             <div class="client-box">
-               <img src="Al-Raheeq.png" alt="Al-Raheeq">
+                <img src="Al-Raheeq.png" alt="Al-Raheeq">
             </div>
 
             <!-- Zamzam -->
@@ -3067,46 +3184,48 @@
             }
         });
 
-        // --- SLIDESHOW JOURNEY LOGIC (REVISED) ---
-        const filmFrames = document.querySelectorAll('.film-frame');
-        const navDots = document.querySelectorAll('.nav-dot');
-
-        function showFrame(targetNumber) {
-            filmFrames.forEach(frame => {
-                frame.classList.remove('active');
-                anime.set(frame, { opacity: 0, scale: 0.9 });
-            });
-            navDots.forEach(dot => dot.classList.remove('active'));
-
-            const targetFrame = document.querySelector(`[data-frame="${targetNumber}"]`);
-            const targetDot = document.querySelector(`[data-target="${targetNumber}"]`);
-
-            if (targetFrame) {
-                anime({
-                    targets: targetFrame,
-                    opacity: [0, 1],
-                    scale: [0.9, 1],
-                    duration: 500,
-                    easing: 'easeInOutQuad',
-                    begin: () => targetFrame.classList.add('active')
-                });
+        // --- JOURNEY SWIPER LOGIC ---
+        const journeySwiper = new Swiper('.journey-swiper', {
+            effect: 'coverflow',
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: 'auto',
+            initialSlide: 2, // Start with middle card (card 3)
+            coverflowEffect: {
+                rotate: 0,
+                stretch: 0,
+                depth: 100,
+                modifier: 2.5,
+                slideShadows: false, // Cleaner look without shadows
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true
+            },
+            loop: false, // Disabled loop to fix navigation order
+            speed: 600,
+            breakpoints: {
+                320: {
+                    slidesPerView: 1,
+                    effect: 'slide',
+                    spaceBetween: 20
+                },
+                768: {
+                    slidesPerView: 'auto',
+                    effect: 'coverflow'
+                }
             }
-            if (targetDot) {
-                targetDot.classList.add('active');
-            }
-        }
-
-        // Add click event to navigation dots
-        navDots.forEach(dot => {
-            dot.addEventListener('click', () => {
-                const target = dot.getAttribute('data-target');
-                showFrame(target);
-            });
         });
-
-        // Initialize with the first frame visible
-        showFrame(1);
-        // --- END OF SLIDESHOW JOURNEY LOGIC ---
+        // --- END JOURNEY SWIPER LOGIC ---
 
 
         // Portfolio Filter Logic
