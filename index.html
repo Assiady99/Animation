@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أنيميشن | ورشة الإبداع الخام - خدمات تسويقية متكاملة</title>
+    <meta name="description"
+        content="وكالة أنيميشن للدعاية والإعلان - ركيزتنا الإبداع وهدفنا نجاح علامتك التجارية. نقدم خدمات إدارة السوشال ميديا، الهوية البصرية، والإنتاج الفني.">
+    <meta name="keywords"
+        content="دعاية وإعلان، تسويق رقمي، هوية بصرية، إنتاج مرئي، سوشال ميديا، أنيميشن، اليمن، صنعاء">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Back to Top -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <!-- Three.js Canvas -->
+    <div id="threejs-container" class="fixed top-0 left-0 w-full h-full -z-10"></div>
+
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-bg-numbers" id="loader-bg-percentage">00</div>
+
+        <div class="loader-camera-container">
+            <div class="lens-ring lens-ring-1" id="ring-1"></div>
+            <div class="lens-ring lens-ring-2" id="ring-2"></div>
+            <div class="lens-ring lens-ring-3" id="ring-3"></div>
+            <div class="lens-shutter" id="lens-shutter">
+                <div class="lens-dot"></div>
+            </div>
+            <div class="scan-line" id="scan-line"></div>
+        </div>
+
+        <div class="loader-text-container">
+            <div class="loader-title">نحيي الخيال...</div>
+            <div class="loader-subtitle">دقة سينمائية، إبداع لا محدود</div>
+        </div>
+
+        <div class="loader-progress-container">
+            <div class="loader-progress-bar">
+                <div class="loader-progress-fill" id="loader-progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav-main" id="navbar">
+        <div class="asym-container flex justify-between items-center">
+            <a href="#" class="text-3xl font-black heading-main z-[1002] relative">أنيميشن</a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-reverse space-x-8">
+                <a href="#home" class="nav-link">الرئيسية</a>
+                <a href="#about-us" class="nav-link">من نحن</a>
+                <a href="#why-us" class="nav-link">لماذ نحن</a>
+                <a href="#journey" class="nav-link">رحلة الإنتاج</a>
+                <a href="#services" class="nav-link">خدماتنا</a>
+                <a href="#portfolio" class="nav-link">أعمالنا</a>
+                <a href="#clients" class="nav-link">عملاؤنا</a>
+                <a href="#contact" class="nav-link">تواصل</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <div class="mobile-menu-close" id="mobileMenuClose"><i class="fas fa-times"></i></div>
+        <a href="#home" class="mobile-nav-link">الرئيسية</a>
+        <a href="#about-us" class="mobile-nav-link">من نحن</a>
+        <a href="#why-us" class="mobile-nav-link">لماذ نحن</a>
+        <a href="#journey" class="mobile-nav-link">رحلة الإنتاج</a>
+        <a href="#services" class="mobile-nav-link">خدماتنا</a>
+        <a href="#portfolio" class="mobile-nav-link">أعمالنا</a>
+        <a href="#clients" class="mobile-nav-link">عملاؤنا</a>
+        <a href="#contact" class="mobile-nav-link">تواصل</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center pt-20">
+        <div class="asym-container">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="text-center md:text-right">
+                    <h1 class="text-4xl md:text-7xl heading-main mb-6">
+                        هنا تُصنع الأفكار
+                    </h1>
+                    <p class="text-lg md:text-xl text-secondary mb-8 max-w-lg mx-auto md:mx-0">
+                        نقدم خدمة تسويقية وإعلانية متكاملة تتيح لعملائنا التركيز على أعمالهم بينما نتكفل نحن بتحويل
+                        منتجاتهم إلى علامات تجارية بارزة في السوق.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                        <a href="#journey" class="btn btn-primary w-full sm:w-auto text-center"><span>عش
+                                الرحلة</span></a>
+                        <a href="#contact" class="btn btn-secondary w-full sm:w-auto text-center">اطلب مشروعك</a>
+                    </div>
+                </div>
+                <div class="mt-12 md:mt-0">
+                    <!-- Premium Exhibition Screen Wrapper -->
+                    <div class="billboard-container">
+                        <!-- Main Frame -->
+                        <div class="billboard-frame">
+                            <!-- Hero Slider -->
+                            <div class="hero-slider-container">
+                                <!-- Digital Screen Overlay -->
+                                <div class="billboard-screen-overlay"></div>
+
+                                <div class="hero-slider-wrapper">
+                                    <div class="hero-slide active">
+                                        <img src="images/logo.PNG" alt="Branding process"
+                                            class="w-full h-full object-contain">
+                                    </div>
+                                    <div class="hero-slide">
+                                        <img src="images/Al-Nukhba.jpeg" alt="Creative Strategy"
+                                            class="w-full h-full object-contain">
+                                    </div>
+                                    <div class="hero-slide">
+                                        <img src="images/Al-Raheeq.png" alt="Video Production"
+                                            class="w-full h-full object-contain">
+                                    </div>
+                                    <div class="hero-slide">
+                                        <img src="images/diora.jpeg" alt="Analytics & Growth"
+                                            class="w-full h-full object-contain">
+                                    </div>
+                                    <div class="hero-slide">
+                                        <img src="images/zamzam.png" alt="Analytics & Growth"
+                                            class="w-full h-full object-contain">
+                                    </div>
+                                </div>
+
+                                <!-- Nav Buttons -->
+                                <div class="hero-slider-nav">
+                                    <button class="hero-nav-btn next"><i class="fas fa-arrow-left"></i></button>
+                                    <button class="hero-nav-btn prev"><i class="fas fa-arrow-right"></i></button>
+                                </div>
+
+                                <!-- Dots -->
+                                <div class="hero-slider-dots">
+                                    <span class="hero-dot active" data-index="0"></span>
+                                    <span class="hero-dot" data-index="1"></span>
+                                    <span class="hero-dot" data-index="2"></span>
+                                    <span class="hero-dot" data-index="3"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sleek Stand -->
+                        <div class="billboard-stand">
+                            <div class="pillar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section (Premium) -->
+    <section id="about-us" class="py-24 relative overflow-hidden"
+        style="background: linear-gradient(180deg, #0f0f13 0%, #1a1a20 100%);">
+
+        <!-- Background Decor -->
+        <div class="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20">
+            <div
+                class="absolute right-0 top-0 w-96 h-96 bg-orange-500 rounded-full blur-[150px] transform translate-x-1/2 -translate-y-1/2">
+            </div>
+            <div
+                class="absolute left-0 bottom-0 w-80 h-80 bg-teal-500 rounded-full blur-[120px] transform -translate-x-1/2 translate-y-1/2">
+            </div>
+        </div>
+
+        <div class="asym-container relative z-10">
+            <div class="max-w-4xl mx-auto text-center">
+                <!-- Premium Label -->
+                <div
+                    class="inline-block mb-4 px-4 py-1 rounded-full border border-orange-500/30 bg-orange-500/10 backdrop-blur-sm">
+                    <span class="text-orange-400 text-sm font-bold tracking-wider">من نحن</span>
+                </div>
+
+                <!-- Main Heading -->
+                <h2 class="text-4xl md:text-5xl heading-main mb-8 leading-tight">
+                    وجهتكم الأولى والوحيدة <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-200">
+                        لعالم الإبداع المتكامل
+                    </span>
+                </h2>
+
+                <!-- Content Box -->
+                <div
+                    class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 md:p-12 shadow-2xl relative group hover:border-orange-500/30 transition-colors duration-500">
+                    <!-- Decor Icons -->
+                    <i
+                        class="fas fa-quote-right absolute top-8 right-8 text-6xl text-white/5 group-hover:text-orange-500/10 transition-colors duration-500"></i>
+
+                    <p class="text-lg md:text-xl text-gray-300 leading-relaxed text-justify relative z-10">
+                        نـحن شـركة انـيـمـيـشـن، وجهــتكم الأولى والـــــــوحيدة لكل ما يخص عالم التسويق والإعلان
+                        والدعاية في اليمن.
+                        انـطلقنا برؤية طمـوحة لـتقديم حلـول إبداعـية متـكاملة تـحت سـقـف واحد، لنرفع عن كاهل عملائنا
+                        عناء التعامل
+                        مع جــهات متعددة.
+                        <br><br>
+                        <span class="text-white font-bold block mt-4 border-r-4 border-teal-500 pr-4">
+                            نحن نؤمن بأن الإبداع والاحترافية هما المحرك الأساسي لنجاح أي عمل.
+                        </span>
+                    </p>
+                </div>
+
+                <!-- Signature/Stats Row (Optional Flair) -->
+                <div class="flex justify-center gap-12 mt-12 opacity-80">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-white mb-1">100%</div>
+                        <div class="text-sm text-gray-400">احترافية</div>
+                    </div>
+                    <div class="w-px h-12 bg-white/10"></div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-white mb-1">24/7</div>
+                        <div class="text-sm text-gray-400">دعم متواصل</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Us Section -->
+    <section id="why-us" class="py-20" style="background-color: var(--bg-card);">
+        <div class="asym-container">
+            <h2 class="text-4xl md:text-6xl heading-main mb-16">لماذا أنيميشن؟</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="sketch-card">
+                    <h3 class="text-xl font-bold mb-3 flex items-center"><i
+                            class="fas fa-check-circle text-teal-400 ml-3"></i> الشريك التسويقي المتكامل</h3>
+                    <p class="text-secondary">نغطي كل جوانب التسويق والإعلان والدعاية في مكان واحد، من التصوير إلى
+                        الحملات الرقمية.</p>
+                </div>
+                <div class="sketch-card">
+                    <h3 class="text-xl font-bold mb-3 flex items-center"><i class="fas fa-clock text-teal-400 ml-3"></i>
+                        نوفر الوقت والجهد</h3>
+                    <p class="text-secondary">عميلك لا يحتاج للتعامل مع أكثر من جهة، مما يوفر عليه الوقت والجهد ليركز
+                        على عمله الأساسي.</p>
+                </div>
+                <div class="sketch-card">
+                    <h3 class="text-xl font-bold mb-3 flex items-center"><i
+                            class="fas fa-palette text-teal-400 ml-3"></i> إبداع واحترافية</h3>
+                    <p class="text-secondary">فريق يجمع بين طاقة الشباب والخبرة، مقدماً حلولاً إبداعية مبتكرة تواكب
+                        السوق.</p>
+                </div>
+                <div class="sketch-card">
+                    <h3 class="text-xl font-bold mb-3 flex items-center"><i class="fas fa-tag text-teal-400 ml-3"></i>
+                        أسعار تنافسية</h3>
+                    <p class="text-secondary">نقدم جودة عالية مقابل أسعار تنافسية، مع باقات وخدمات تناسب الشركات الكبيرة
+                        والصغيرة.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- SLIDESHOW Production Journey Section -->
+    <section id="journey" class="slide-show-journey py-20 relative bg-zinc-900/50">
+        <div class="asym-container">
+            <div class="journey-heading mb-16 text-center">
+                <h2 class="text-4xl md:text-6xl heading-main text-white journey-title">رحلة الإنتاج السينمائية</h2>
+                <p class="text-secondary mt-4 max-w-2xl mx-auto">خطوات مدروسة تحول فكرتك إلى واقع مبهر</p>
+            </div>
+            <!-- Swiper -->
+            <div class="swiper journey-swiper">
+                <div class="swiper-wrapper">
+                    <!-- Slide 1 -->
+                    <div class="swiper-slide">
+                        <div class="film-frame">
+                            <span class="frame-number">01</span>
+                            <div class="frame-icon"><i class="fas fa-lightbulb"></i></div>
+                            <h3 class="frame-title">الفكرة والاستراتيجية</h3>
+                            <p class="frame-description">
+                                نبدأ بفهم عميق لسوقك، منافسيك، وجمهورك المستهدف. نحدد أهداف الحملة ونضع استراتيجية واضحة
+                                تضمن أن كل خطوة تالية تخدم هدفك النهائي.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="swiper-slide">
+                        <div class="film-frame">
+                            <span class="frame-number">02</span>
+                            <div class="frame-icon"><i class="fas fa-pencil-ruler"></i></div>
+                            <h3 class="frame-title">التصميم والقصة المصورة</h3>
+                            <p class="frame-description">
+                                نحول الاستراتيجية إلى أفكار إبداعية مرئية. نقوم بتصميم الشعارات، اختيار الألوان، وإنشاء
+                                القصص المصورة التي تحدد مشاهد الفيديو أو الإعلان.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Slide 3 -->
+                    <div class="swiper-slide">
+                        <div class="film-frame">
+                            <span class="frame-number">03</span>
+                            <div class="frame-icon"><i class="fas fa-camera"></i></div>
+                            <h3 class="frame-title">الإنتاج والتصوير</h3>
+                            <p class="frame-description">
+                                نقوم بتنفيذ التصاميم على أرض الواقع. سواء كان ذلك تصوير المنتجات في استوديونا، إنتاج
+                                الفيديوهات الترويجية، أو طباعة المطبوعات الدعائية.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Slide 4 -->
+                    <div class="swiper-slide">
+                        <div class="film-frame">
+                            <span class="frame-number">04</span>
+                            <div class="frame-icon"><i class="fas fa-rocket"></i></div>
+                            <h3 class="frame-title">الإطلاق والتسويق</h3>
+                            <p class="frame-description">
+                                نطلق الحملة الإعلانية عبر القنوات المحددة. سواء كانت لوحات إعلانية في الشوارع، حملات
+                                ممولة على منصات التواصل الاجتماعي، أو إرسال المواد الدعائية.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Slide 5 -->
+                    <div class="swiper-slide">
+                        <div class="film-frame">
+                            <span class="frame-number">05</span>
+                            <div class="frame-icon"><i class="fas fa-chart-line"></i></div>
+                            <h3 class="frame-title">التحليل والتحسين</h3>
+                            <p class="frame-description">
+                                نراقب أداء الحملة باستمرار باستخدام أدوات التحليل. نقيس النتائج مقابل الأهداف المحددة
+                                ونقدم تقارير دورية للعميل. بناءً على البيانات، نقترح تحسينات.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Pagination -->
+                <div class="swiper-pagination"></div>
+                <!-- Navigation -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20">
+        <div class="asym-container">
+            <h2 class="text-4xl md:text-6xl heading-main mb-16">خدماتنا المتكاملة</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="sketch-card">
+                    <div class="service-icon"><i class="fas fa-hashtag"></i></div>
+                    <h3 class="text-2xl font-bold mb-3">إدارة السوشال ميديا</h3>
+                    <p class="text-secondary">استراتيجيات تسويق رقمية مخصصة، إدارة الحسابات، ومحتوى إبداعي لمنصات
+                        التواصل الاجتماعي.</p>
+                </div>
+                <div class="sketch-card">
+                    <div class="service-icon"><i class="fas fa-ad"></i></div>
+                    <h3 class="text-2xl font-bold mb-3">الإعلانات الخارجية</h3>
+                    <p class="text-secondary">تصميم وتنفيذ لوحات إعلانية مميزة في أماكن استراتيجية لضمان أكبر وصول
+                        لجمهورك.</p>
+                </div>
+                <div class="sketch-card">
+                    <div class="service-icon"><i class="fas fa-print"></i></div>
+                    <h3 class="text-2xl font-bold mb-3">المطبوعات الإعلانية</h3>
+                    <p class="text-secondary">تصميم وطباعة بروشورات، كتالوجات، بطاقات، وهدايا دعائية تعكس هويتك
+                        التجارية.</p>
+                </div>
+                <div class="sketch-card">
+                    <div class="service-icon"><i class="fas fa-camera"></i></div>
+                    <h3 class="text-2xl font-bold mb-3">التصوير والإنتاج</h3>
+                    <p class="text-secondary">استوديو تصوير متكامل لإنتاج صور وفيديوهات احترافية للمنتجات مع خدمات
+                        المونتاج والمؤثرات.</p>
+                </div>
+                <div class="sketch-card">
+                    <div class="service-icon"><i class="fas fa-fingerprint"></i></div>
+                    <h3 class="text-2xl font-bold mb-3">الهوية البصرية</h3>
+                    <p class="text-secondary">إنشاء هوية بصرية متكاملة تشمل الشعار، الألوان، والخطوط لتمنح علامتك حضورًا
+                        مميزًا.</p>
+                </div>
+                <div class="sketch-card">
+                    <div class="service-icon"><i class="fas fa-handshake"></i></div>
+                    <h3 class="text-2xl font-bold mb-3">خدمة العملاء</h3>
+                    <p class="text-secondary">صياغة عقود، متابعة مستمرة لضمان رضا العميل، ونظام لإدارة الملاحظات
+                        والاستفسارات.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IMPROVED Portfolio Section -->
+    <section id="portfolio" class="py-20 relative z-10"
+        style="background-color: var(--bg-card); min-height: 800px; display: block !important;">
+        <div class="asym-container">
+            <h2 class="text-4xl md:text-6xl heading-main mb-16">دفتر أعمالنا</h2>
+
+            <!-- Filter Buttons -->
+            <div class="flex justify-center flex-wrap gap-4 mb-12">
+                <button class="filter-btn active" data-filter="all">الكل</button>
+                <button class="filter-btn" data-filter="branding">هوية بصرية</button>
+                <button class="filter-btn" data-filter="campaign">حملات إعلانية</button>
+                <button class="filter-btn" data-filter="social">سوشال ميديا</button>
+                <button class="filter-btn" data-filter="printing">مطبوعات</button>
+            </div>
+
+            <!-- Asymmetrical Project Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-auto">
+                <!-- Project 1: Large (Digital Video) -->
+                <div class="project-card md:col-span-2 row-span-2 type-digital" data-category="campaign"
+                    data-video="images/Coffee reels - macro videos.mp4">
+                    <div class="mini-billboard">
+                        <div class="mini-fixture"></div>
+                        <div class="mini-frame-wrapper">
+                            <div class="mini-frame">
+                                <div class="mini-frame-inner">
+                                    <div class="project-card-front">
+                                        <span class="project-tag">حملة إعلانية</span>
+                                        <video autoplay muted loop playsinline class="w-full h-full object-cover">
+                                            <source src="images/Coffee reels - macro videos.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <div class="project-card-back">
+                                        <h3>حملة "الثقة" لبنك الشرق</h3>
+                                        <p>تحليل البيانات والنمو الرقمي عبر منصات الإعلان العالمية.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="industrial-stand">
+                            <div class="pillar-group">
+                                <div class="main-pillar"></div>
+                                <div class="main-pillar"></div>
+                            </div>
+                            <div class="support-bar"></div>
+                            <div class="stand-base-plate"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2: Small (Static Branding) -->
+                <div class="project-card type-static" data-category="branding"
+                    data-video="images/Coffee reels - macro videos.mp4">
+                    <div class="mini-billboard">
+                        <div class="mini-fixture"></div>
+                        <div class="mini-frame-wrapper">
+                            <div class="mini-frame">
+                                <div class="mini-frame-inner">
+                                    <div class="project-card-front">
+                                        <span class="project-tag">هوية بصرية</span>
+                                        <video autoplay muted loop playsinline class="w-full h-full object-cover">
+                                            <source src="images/Coffee reels - macro videos.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <div class="project-card-back">
+                                        <h3>هوية "قهوة الصباح"</h3>
+                                        <p>تصميم متكامل يعكس الجودة والطاقة الحيوية.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="industrial-stand">
+                            <div class="pillar-group">
+                                <div class="main-pillar"></div>
+                                <div class="main-pillar"></div>
+                            </div>
+                            <div class="support-bar"></div>
+                            <div class="stand-base-plate"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 3: Small (Digital Video) -->
+                <div class="project-card type-digital" data-category="social"
+                    data-video="images/Coffee reels - macro videos.mp4">
+                    <div class="mini-billboard">
+                        <div class="mini-fixture"></div>
+                        <div class="mini-frame-wrapper">
+                            <div class="mini-frame">
+                                <div class="mini-frame-inner">
+                                    <div class="project-card-front">
+                                        <span class="project-tag">سوشال ميديا</span>
+                                        <video autoplay muted loop playsinline class="w-full h-full object-cover">
+                                            <source src="images/Coffee reels - macro videos.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <div class="project-card-back">
+                                        <h3>برومو "مجوهرات براق"</h3>
+                                        <p>تصوير سينمائي ومؤثرات بصرية ساحرة للمنتجات الفاخرة.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="industrial-stand">
+                            <div class="pillar-group">
+                                <div class="main-pillar"></div>
+                                <div class="main-pillar"></div>
+                            </div>
+                            <div class="support-bar"></div>
+                            <div class="stand-base-plate"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4: Wide (Static Printing) -->
+                <div class="project-card md:col-span-2 type-static" data-category="printing"
+                    data-video="images/Coffee reels - macro videos.mp4">
+                    <div class="mini-billboard">
+                        <div class="mini-fixture"></div>
+                        <div class="mini-frame-wrapper">
+                            <div class="mini-frame">
+                                <div class="mini-frame-inner">
+                                    <div class="project-card-front">
+                                        <span class="project-tag">مطبوعات</span>
+                                        <video autoplay muted loop playsinline class="w-full h-full object-cover">
+                                            <source src="images/Coffee reels - macro videos.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <div class="project-card-back">
+                                        <h3>بروشور "مؤتمر التقنية"</h3>
+                                        <p>تصميم عصري ونظيف يبرز أهم ملامح الحدث السنوي.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="industrial-stand">
+                            <div class="pillar-group">
+                                <div class="main-pillar"></div>
+                                <div class="main-pillar"></div>
+                                <div class="main-pillar"></div>
+                            </div>
+                            <div class="support-bar"></div>
+                            <div class="stand-base-plate"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5: Small (Static Branding) -->
+                <div class="project-card type-static" data-category="branding"
+                    data-video="images/Coffee reels - macro videos.mp4">
+                    <div class="mini-billboard">
+                        <div class="mini-fixture"></div>
+                        <div class="mini-frame-wrapper">
+                            <div class="mini-frame">
+                                <div class="mini-frame-inner">
+                                    <div class="project-card-front">
+                                        <span class="project-tag">هوية بصرية</span>
+                                        <video autoplay muted loop playsinline class="w-full h-full object-cover">
+                                            <source src="images/Coffee reels - macro videos.mp4" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <div class="project-card-back">
+                                        <h3>هوية "تقنية العصر"</h3>
+                                        <p>بناء علامة تجارية قوية لشركات الذكاء الاصطناعي الناشئة.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="industrial-stand">
+                            <div class="pillar-group">
+                                <div class="main-pillar"></div>
+                                <div class="main-pillar"></div>
+                            </div>
+                            <div class="support-bar"></div>
+                            <div class="stand-base-plate"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clients Section (Final - Simple Natural Grid) -->
+    <section id="clients" class="py-20 relative">
+
+        <!-- Header -->
+        <div class="asym-container relative z-20 w-full text-center">
+            <h2 class="text-4xl md:text-6xl heading-main mb-6">شركاء النجاح</h2>
+            <div class="w-32 h-1 bg-gradient-to-r from-transparent via-yellow-600 to-transparent mx-auto mb-16"></div>
+        </div>
+
+        <!-- Simple Grid -->
+        <div class="simple-clients-grid">
+            <!-- Diura -->
+            <div class="client-box">
+                <img src="images/diora.jpeg" alt="Diura">
+            </div>
+
+            <!-- Al-Nukhba -->
+            <div class="client-box">
+                <img src="images/Al-Nukhba.jpeg" alt="Al-Nukhba">
+            </div>
+
+            <!-- Al-Raheeq -->
+            <div class="client-box">
+                <img src="images/Al-Raheeq.png" alt="Al-Raheeq">
+            </div>
+
+            <!-- Zamzam -->
+            <div class="client-box">
+                <img src="images/zamzam.png" alt="Zamzam Yemen">
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20" style="background-color: var(--bg-card);">
+        <div class="asym-container">
+            <h2 class="text-4xl md:text-6xl heading-main mb-16">لنبني علامتك التجارية معًا</h2>
+
+            <div class="contact-container">
+                <!-- Right Column (Contact Info) - Visually Right in RTL -->
+                <div>
+                    <div class="contact-info-card">
+                        <div>
+                            <h3 class="text-2xl font-bold mb-8 text-white">معلومات التواصل</h3>
+
+                            <div class="info-item">
+                                <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                                <div class="info-content">
+                                    <h4>موقعنا</h4>
+                                    <p>شارع حدة، صنعاء<br>الجمهورية اليمنية</p>
+                                </div>
+                            </div>
+
+                            <div class="info-item">
+                                <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
+                                <div class="info-content">
+                                    <h4>اتصل بنا</h4>
+                                    <p dir="ltr" class="text-right">
+                                        <a href="tel:+9671000000" class="transition-colors hover:text-[#ff6b35]">+967 1
+                                            000 000</a><br>
+                                        <a href="tel:+967770000000" class="transition-colors hover:text-[#ff6b35]">+967
+                                            77 000 0000</a>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="info-item">
+                                <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                                <div class="info-content">
+                                    <h4>البريد الإلكتروني</h4>
+                                    <p>
+                                        <a href="mailto:hello@animation.sa"
+                                            class="transition-colors hover:text-[#ff6b35]">hello@animation.sa</a><br>
+                                        <a href="mailto:support@animation.sa"
+                                            class="transition-colors hover:text-[#ff6b35]">support@animation.sa</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8">
+                            <h4 class="text-lg font-bold mb-4 text-white">تابعنا على</h4>
+                            <div class="social-links">
+                                <a href="#" class="social-btn"><i class="fab fa-tiktok"></i></a>
+                                <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="social-btn"><i class="fab fa-facebook"></i></a>
+                                <a href="#" class="social-btn"><i class="fab fa-whatsapp"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Left Column (Form) -->
+                <div>
+                    <form class="contact-form enhanced">
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <input type="text" placeholder="اسمك الكريم" class="form-input" required>
+                            <input type="email" placeholder="بريدك الإلكتروني" class="form-input" required>
+                        </div>
+                        <div class="mb-6">
+                            <input type="text" placeholder="رقم الجوال" class="form-input" required>
+                        </div>
+                        <div class="mb-6">
+                            <select class="form-input text-gray-400" required>
+                                <option value="" disabled selected>نوع الخدمة المطلوبة</option>
+                                <option value="branding">هوية بصرية</option>
+                                <option value="marketing">تسويق رقمي</option>
+                                <option value="production">إنتاج فني</option>
+                                <option value="consultation">استشارة</option>
+                            </select>
+                        </div>
+                        <div class="mb-6">
+                            <textarea rows="5" placeholder="تفاصيل مشروعك..." class="form-input" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-full"><span>أرسل طلبك</span></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="asym-container">
+            <div class="footer-grid">
+                <!-- Column 1: Brand -->
+                <div class="footer-brand">
+                    <h3 class="heading-main">أنيميشن</h3>
+                    <p class="footer-desc">
+                        شريكك الإبداعي لتحويل الأفكار إلى واقع ملموس. نقدم حلولاً تسويقية متكاملة ترفع من قيمة علامتك
+                        التجارية وتصل بها إلى جمهورك المستهدف بفعالية.
+                    </p>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div>
+                    <h4 class="footer-title">روابط سريعة</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home"><i class="fas fa-chevron-left"></i> الرئيسية</a></li>
+                        <li><a href="#why-us"><i class="fas fa-chevron-left"></i> لماذا نحن</a></li>
+                        <li><a href="#journey"><i class="fas fa-chevron-left"></i> رحلة الإنتاج</a></li>
+                        <li><a href="#services"><i class="fas fa-chevron-left"></i> خدماتنا</a></li>
+                        <li><a href="#portfolio"><i class="fas fa-chevron-left"></i> أعمالنا</a></li>
+                        <li><a href="#clients"><i class="fas fa-chevron-left"></i> عملاؤنا</a></li>
+                        <li><a href="#contact"><i class="fas fa-chevron-left"></i> تواصل</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Services -->
+                <div>
+                    <h4 class="footer-title">خدماتنا</h4>
+                    <ul class="footer-links">
+                        <li><a href="#services"><i class="fas fa-circle" style="font-size: 6px;"></i> إدارة السوشال
+                                ميديا</a></li>
+                        <li><a href="#services"><i class="fas fa-circle" style="font-size: 6px;"></i> الإعلانات
+                                الخارجية</a></li>
+                        <li><a href="#services"><i class="fas fa-circle" style="font-size: 6px;"></i> المطبوعات
+                                الإعلانية</a></li>
+                        <li><a href="#services"><i class="fas fa-circle" style="font-size: 6px;"></i> التصوير
+                                والإنتاج</a></li>
+                        <li><a href="#services"><i class="fas fa-circle" style="font-size: 6px;"></i> الهوية البصرية</a>
+                        </li>
+                        <li><a href="#services"><i class="fas fa-circle" style="font-size: 6px;"></i> خدمة العملاء</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: About Us -->
+                <div>
+                    <h4 class="footer-title">من نحن</h4>
+                    <p class="footer-desc">
+                        نحن شركة أنيميشن، وجهتكم الأولى والوحيدة لكل ما يخص عالم التسويق والإعلان والدعاية في اليمن.
+                        انطلقنا برؤية طموحة لتقديم حلول إبداعية متكاملة تحت سقف واحد، لنرفع عن كاهل عملائنا عناء التعامل
+                        مع
+                        جهات متعددة.
+                        نحن نؤمن بأن الإبداع والاحترافية هما المحرك الأساسي لنجاح أي عمل.
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="copyright">&copy; 2025 أنيميشن للدعاية والإعلان. جميع الحقوق محفوظة.</p>
+                <div class="social-links" style="margin-top: 0;">
+                    <a href="#" class="social-btn" style="width: 35px; height: 35px; font-size: 0.9rem;"><i
+                            class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-btn" style="width: 35px; height: 35px; font-size: 0.9rem;"><i
+                            class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-btn" style="width: 35px; height: 35px; font-size: 0.9rem;"><i
+                            class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+
+    <!-- Video Modal Structure -->
+    <div id="videoModal" class="video-modal">
+        <div id="modalClose" class="modal-close" title="إغلاق">
+            <i class="fas fa-times"></i>
+        </div>
+        <div class="modal-video-container">
+            <video id="modalVideo" controls autoplay playsinline class="w-full h-full">
+                <source src="" type="video/mp4">
+            </video>
+        </div>
+        <div class="modal-info">
+            <h2 id="modalTitle">اسم المشروع</h2>
+        </div>
+    </div>
+</body>
+
+</html>
