@@ -1,4 +1,4 @@
- 
+
         // Auto-scroll to top on page refresh/load
         if (history.scrollRestoration) {
             history.scrollRestoration = 'manual';
@@ -419,4 +419,3 @@
         });
 
         // --- GSAP PULSE ANIMATION REMOVED ---
-    
